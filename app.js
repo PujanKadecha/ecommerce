@@ -6,9 +6,10 @@ const express = require("express"),
   morgon = require("morgan"),
   env = require("./config/env"),
   errorHandler = require("./middleware/error.middleware"),
-  notFound = require ("./middleware/notFound.middleware"),
+  notFound = require("./middleware/notFound.middleware"),
   globalLimitter = require("./middleware/ratelimitter.middleware"),
-  routes = require ("./routes");
+  routes = require("./routes"),
+  getHealthInfo = require("./utils/health");
 
 const app = express();
 
@@ -38,10 +39,10 @@ app.use(comperation());
 app.use(morgon("dev"));
 
 app.get("/api/health", (req, res) => {
-  res.status(202).json({
-    success: true,
-    message: "Server is Running",
-  });
+    res.status(200).json({
+        success: true,
+        ...getHealthInfo()
+    });
 });
 
 app.use(`/api/${env.apiVersion}`, routes);
