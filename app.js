@@ -3,14 +3,15 @@ const express = require("express"),
   cors = require("cors"),
   coockieParser = require("cookie-parser"),
   comperation = require("compression"),
-  morgon = require("morgan");
+  morgon = require("morgan"),
+  env = require ("./config/env");
 
 const app = express();
 
 app.use(helmet());
 
 app.use(cors({
-    origin : process.env.CLIENT_URL,
+    origin : env.clientUrl,
     credential : true
 }));
 
