@@ -2,11 +2,12 @@ const express = require("express");
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-    res.json({
-        success: true,
-        message: "Auth Route Working"
-    });
-});
+const authController = require("../controllers/auth.controller");
+
+const validate = require("../middleware/validation.middleware");
+
+const { registerSchema } = require("../validators/auth.validator");
+
+router.post("/register", validate(registerSchema), authController.register);
 
 module.exports = router;
