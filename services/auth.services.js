@@ -1,5 +1,6 @@
 const User = require("../models/user.model");
 const { hashPassword, comparePassword } = require("../utils/password");
+const { generateAccessToken } = require("../config/jwt");
 
 const register = async (userData) => {
   const existingUser = await User.findOne({
@@ -18,11 +19,16 @@ const register = async (userData) => {
     ...userData,
     password: hashedPassword,
   });
+  const accessToken = generateAccessToken(user);
+
   const userObject = user.toObject();
 
   delete userObject.password;
 
-  return userObject;
+  return {
+    user: userObject,
+    accessToken,
+  };
 };
 
 const login = async (userData) => {
@@ -44,11 +50,16 @@ const login = async (userData) => {
     throw error;
   }
 
+  const accessToken = generateAccessToken(user);
+
   const userObject = user.toObject();
 
   delete userObject.password;
 
-  return userObject;
+  return {
+    user: userObject,
+    accessToken,
+  };
 };
 
 module.exports = {
