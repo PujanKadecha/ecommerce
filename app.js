@@ -7,7 +7,8 @@ const express = require("express"),
   env = require("./config/env"),
   errorHandler = require("./middleware/error.middleware"),
   notFound = require ("./middleware/notFound.middleware"),
-  globalLimitter = require("./middleware/ratelimitter.middleware");
+  globalLimitter = require("./middleware/ratelimitter.middleware"),
+  routes = require ("./routes");
 
 const app = express();
 
@@ -42,6 +43,8 @@ app.get("/api/health", (req, res) => {
     message: "Server is Running",
   });
 });
+
+app.use(`/api/${env.apiVersion}`, routes);
 
 app.use(notFound);
 
