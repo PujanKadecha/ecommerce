@@ -39,10 +39,10 @@ app.use(comperation());
 app.use(morgon("dev"));
 
 app.get("/api/health", (req, res) => {
-    res.status(200).json({
-        success: true,
-        ...getHealthInfo()
-    });
+  res.status(200).json({
+    success: true,
+    ...getHealthInfo(),
+  });
 });
 
 app.use(`/api/${env.apiVersion}`, routes);
