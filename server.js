@@ -1,16 +1,9 @@
-const express = require("express"),
-  helmet = require("helmet"),
-  cors = require("cors"),
-  coockieParser = require("cookie-parser"),
-  comperation = require("compression"),
-  morgon = require("morgan");
+const dotenv = require("dotenv").config();
 
-const app = express();
+const app = require ("./app");
 
-app.use(helmet());
+const PORT = process.env.PORT;
 
-app.cors({
-    origin : process.env.CLIENT_URL,
-    credential : true
-});
-
+app.listen(PORT , () => {
+  console.log(`Server is running on ${PORT}`);
+})
