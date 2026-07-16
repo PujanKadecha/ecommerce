@@ -4,11 +4,8 @@ const authenticate = require("../middleware/auth.middleware");
 
 const router = express.Router();
 
-router.get("/profile", authenticate, (req, res) => {
-  res.json({
-    success: true,
-    data: req.user,
-  });
-});
+const userController = require("../controllers/user.controller");
+
+router.get("/me",authenticate,userController.getCurrentUser);
 
 module.exports = router;
