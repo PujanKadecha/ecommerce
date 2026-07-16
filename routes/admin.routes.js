@@ -7,9 +7,12 @@ const authorize = require("../middleware/authorize.middleware");
 
 const adminController = require("../controllers/admin.controller");
 
-
-
 router.use(authenticate);
 router.use(authorize("admin"));
+
+router.get(
+    "/users",
+    adminController.getAllUsers
+);
 
 module.exports = router;
