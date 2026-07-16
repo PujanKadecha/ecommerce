@@ -31,12 +31,12 @@ const refreshTokenSchema = Joi.object({
 });
 
 const logoutSchema = Joi.object({
-  refreshToken:Joi.string().required(),
+  refreshToken: Joi.string().required(),
 });
 
 module.exports = {
   registerSchema,
   loginSchema,
   refreshTokenSchema,
-  logoutSchema
+  logoutSchema,
 };

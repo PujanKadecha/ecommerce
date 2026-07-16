@@ -124,7 +124,7 @@ const logout = async (refreshToken) => {
   return;
 };
 
-const logoutAll = async(userId) => {
+const logoutAll = async (userId) => {
   const user = await User.findById(userId);
 
   if (!user) {
@@ -138,12 +138,12 @@ const logoutAll = async(userId) => {
   await user.save();
 
   return;
-}
+};
 
 module.exports = {
   register,
   login,
   refreshAccessToken,
   logout,
-  logoutAll
+  logoutAll,
 };

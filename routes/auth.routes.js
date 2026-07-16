@@ -8,7 +8,12 @@ const authenticate = require("../middleware/auth.middleware");
 
 const validate = require("../middleware/validation.middleware");
 
-const { registerSchema, loginSchema,refreshTokenSchema,logoutSchema } = require("../validators/auth.validator");
+const {
+  registerSchema,
+  loginSchema,
+  refreshTokenSchema,
+  logoutSchema,
+} = require("../validators/auth.validator");
 
 router.post("/register", validate(registerSchema), authController.register);
 
@@ -20,8 +25,8 @@ router.post(
   authController.refreshToken,
 );
 
-router.post("/logout",validate(logoutSchema),authController.logout);
+router.post("/logout", validate(logoutSchema), authController.logout);
 
-router.post("/logoutall",authenticate,authController.logoutAll);
+router.post("/logoutall", authenticate, authController.logoutAll);
 
 module.exports = router;

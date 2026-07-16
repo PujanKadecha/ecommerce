@@ -73,5 +73,5 @@ module.exports = {
   login,
   refreshToken,
   logout,
-  logoutAll
+  logoutAll,
 };
