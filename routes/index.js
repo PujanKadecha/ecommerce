@@ -1,5 +1,5 @@
 const express = require("express");
-
+const adminRoutes = require("./admin.routes");
 const authRoutes = require("./auth.routes");
 const userRoutes = require("./user.routes");
 const productRoutes = require("./product.routes");
@@ -17,5 +17,6 @@ router.use("/categories", categoryRoutes);
 router.use("/cart", cartRoutes);
 router.use("/orders", orderRoutes);
 router.use("/reviews", reviewRoutes);
+router.use("/admin",adminRoutes);
 
 module.exports = router;
