@@ -1,4 +1,22 @@
 const errorHandler = (err, req, res, next) => {
+  const multer = require("multer");
+
+  if (err instanceof multer.MulterError) {
+    if (err.code === "LIMIT_FILE_SIZE") {
+      return res.status(400).json({
+        success: false,
+        message: "Image size must not exceed 2 MB",
+      });
+    }
+  }
+
+  if (err.message === "Only JPG, JPEG, PNG and WEBP images are allowed") {
+    return res.status(400).json({
+      success: false,
+      message: err.message,
+    });
+  }
+
   const statusCode = err.statusCode || 500;
 
   res.status(statusCode).json({

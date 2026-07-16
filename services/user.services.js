@@ -1,5 +1,6 @@
 const User = require("../models/user.model");
 const { hashPassword, comparePassword } = require("../utils/password");
+const { uploadImage, deleteImage } = require("../utils/cloudinary");
 
 const getCurruntUser = async (user) => {
   return user;
@@ -59,8 +60,40 @@ const changePassword = async (userId, currentPassword, newPassword) => {
   return;
 };
 
+const uploadAvatar = async (userId, file) => {
+  if (!file) {
+    const error = new Error("Please upload an image");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    const error = new Error("User not found");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  if (user.avatar.publicId) {
+    await deleteImage(user.avatar.publicId);
+  }
+
+  const uploadedImage = await uploadImage(file.buffer, "ecommerce/users");
+
+  user.avatar = {
+    url: uploadedImage.secure_url,
+    publicId: uploadedImage.public_id,
+  };
+
+  await user.save();
+
+  return user;
+};
+
 module.exports = {
   getCurruntUser,
   updateProfile,
-  changePassword
+  changePassword,
+  uploadAvatar,
 };

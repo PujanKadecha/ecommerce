@@ -37,8 +37,14 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
     avatar: {
-      type: String,
-      default: "",
+      url: {
+        type: String,
+        default: "",
+      },
+      publicId: {
+        type: String,
+        default: "",
+      },
     },
     phone: {
       type: String,
@@ -47,7 +53,7 @@ const userSchema = new mongoose.Schema(
     refreshTokens: [
       {
         token: String,
-        createdAt: {   
+        createdAt: {
           type: Date,
           default: Date.now,
         },
