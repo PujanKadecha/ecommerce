@@ -91,9 +91,28 @@ const uploadAvatar = async (userId, file) => {
   return user;
 };
 
+const deleteAccount = async (userId) => {
+  const user = await User.findById(userId);
+
+  if (!user) {
+    res.status(401).json({
+      success: false,
+      message: "User Not Found",
+    });
+  }
+
+  if (user.avatar?.publicId) {
+    await deleteImage(user.avatar.publicId);
+  }
+  await User.findByIdAndDelete(userId);
+
+  return;
+};
+
 module.exports = {
   getCurruntUser,
   updateProfile,
   changePassword,
   uploadAvatar,
+  deleteAccount
 };

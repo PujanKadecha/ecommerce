@@ -43,8 +43,38 @@ const changePassword = async (req, res, next) => {
     next(error);
   }
 };
+
+const uploadAvatar = async (req, res, next) => {
+  try {
+    const user = await userService.uploadAvatar(req.user._id, req.file);
+
+    res.status(200).json({
+      success: true,
+      message: "Avatar uploaded successfully",
+      data: user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteAccount = async (req, res, next) => {
+  try {
+    await userService.deleteAccount(req.user._id);
+
+    res.status(200).json({
+      success: true,
+      message: "Account deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getCurrentUser,
   updateProfile,
-  changePassword
+  changePassword,
+  uploadAvatar,
+  deleteAccount
 };
