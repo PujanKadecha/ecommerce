@@ -19,16 +19,12 @@ const register = async (userData) => {
     ...userData,
     password: hashedPassword,
   });
-  const accessToken = generateAccessToken(user);
 
   const userObject = user.toObject();
 
   delete userObject.password;
 
-  return {
-    user: userObject,
-    accessToken,
-  };
+  return userObject;
 };
 
 const login = async (userData) => {

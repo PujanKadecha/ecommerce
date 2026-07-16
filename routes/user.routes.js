@@ -1,12 +1,14 @@
 const express = require("express");
 
+const authenticate = require("../middleware/auth.middleware");
+
 const router = express.Router();
 
-router.get("/", (req, res) => {
-    res.json({
-        success: true,
-        message: "User Route Working"
-    });
+router.get("/profile", authenticate, (req, res) => {
+  res.json({
+    success: true,
+    data: req.user,
+  });
 });
 
 module.exports = router;
