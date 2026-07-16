@@ -15,6 +15,19 @@ const generateAccessToken = (user) => {
     );
 };
 
+const generateRefreshToken = (user) => {
+    return jwt.sign(
+        {
+            id:user._id,
+        },
+        env.refreshSecret,
+        {
+            expiresIn : env.refreshExpires
+        }
+    )
+}
+
 module.exports = {
-    generateAccessToken
+    generateAccessToken,
+    generateRefreshToken
 };

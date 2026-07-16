@@ -28,7 +28,50 @@ const login = async (req, res, next) => {
   }
 };
 
+const refreshToken = async (req, res, next) => {
+  try {
+    const result = await authService.refreshAccessToken(req.body.refreshToken);
+
+    res.status(200).json({
+      success: true,
+      message: "Token refreshed Successfully",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const logout = async (req, res, next) => {
+  try {
+    await authService.logout(req.body.refreshToken);
+
+    res.status(200).json({
+      success: true,
+      message: "Logged Out Successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const logoutAll = async (req, res, next) => {
+  try {
+    await authService.logoutAll(req.user._id);
+
+    res.status(200).json({
+      success: true,
+      message: "Logged Out from all Devices",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   register,
   login,
+  refreshToken,
+  logout,
+  logoutAll
 };
