@@ -3,7 +3,6 @@ const { hashPassword, comparePassword } = require("../utils/password");
 const { generateAccessToken, generateRefreshToken } = require("../config/jwt");
 const jwt = require("jsonwebtoken");
 const env = require("../config/env");
-const { refreshToken } = require("../controllers/auth.controller");
 
 const register = async (userData) => {
   const existingUser = await User.findOne({

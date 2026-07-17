@@ -7,7 +7,7 @@ const {
   updateProfileSchema,
   changePasswordSchema,
 } = require("../validators/user.validator");
-const upload = require("../middleware/upload.middleware");
+const {upload} = require("../middleware/upload.middleware");
 const authorize = require("../middleware/authorize.middleware");
 
 router.get("/me", authenticate, userController.getCurrentUser);

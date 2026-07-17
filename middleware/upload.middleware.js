@@ -10,20 +10,24 @@ const fileFilter = (req, file, cb) => {
     "image/webp",
   ];
 
-  if(allowedMimeTypes.includes(file.mimetype)){
-    cb(null,true);
-  }
-  else{
+  if (allowedMimeTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
     cb(new Error("Only JPG, JPEG, PNG and WEBP images are allowed"), false);
   }
 };
 
 const upload = multer({
-    storage,
-    fileFilter,
-    limits:{
-        fileSize: 2 * 1024 * 1024
-    }
+  storage,
+  fileFilter,
+  limits: {
+    fileSize: 2 * 1024 * 1024,
+  },
 });
 
-module.exports = upload;
+const uploadProductImages = upload.array("images", 5);
+
+module.exports = {
+  upload,
+  uploadProductImages,
+};
