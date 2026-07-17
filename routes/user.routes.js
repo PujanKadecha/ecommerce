@@ -2,7 +2,7 @@ const express = require("express");
 const authenticate = require("../middleware/auth.middleware");
 const router = express.Router();
 const userController = require("../controllers/user.controller");
-const validate = require("../middleware/validation.middleware");
+const {validate} = require("../middleware/validation.middleware");
 const {
   updateProfileSchema,
   changePasswordSchema,
