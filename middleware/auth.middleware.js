@@ -16,6 +16,8 @@ const authenticate = async (req, res, next) => {
     const token = authHeader.split(" ")[1];
 
     const decoded = jwt.verify(token, env.accessSecret);
+    // console.log("Decoded:", decoded);
+    // console.log("User:", user);
 
     const user = await User.findById(decoded.id).select("-password");
 
@@ -27,6 +29,8 @@ const authenticate = async (req, res, next) => {
     }
 
     req.user = user;
+
+    console.log(req.user);
 
     next();
   } catch (error) {
