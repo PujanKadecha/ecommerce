@@ -71,7 +71,53 @@ const getMyCart = async (userId) => {
   return cart;
 };
 
+const updateCartItem = async (userId, itemId, quantity) => {
+  const cart = await Cart.findOne({ user: userId });
+
+  if (!cart) {
+    const error = new Error("Cart not found");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  const item = cart.items.id(itemId);
+
+  if (!item) {
+    const error = new Error("Cart item not found");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  const product = await Product.findById(item.product);
+
+  if (!product) {
+    const error = new Error("Product not found");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  if (product.status !== "active") {
+    const error = new Error("Product is not available");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  if (quantity > product.stock) {
+    const error = new Error("Insufficient stock");
+    error.statusCode = 400;
+    throw error;
+  }
+  item.quantity = quantity;
+  item.price = product.price;
+  await cart.save();
+  await cart.populate({
+    path: "items.product",
+    select: "name slug price stock images status",
+  });
+  return cart;
+};
 module.exports = {
   addToCart,
   getMyCart,
+  updateCartItem,
 };

@@ -28,7 +28,26 @@ const getMyCart = async (req, res, next) => {
   }
 };
 
+const updateCartItem = async(req,res,next) => {
+  try{
+    const cart = await cartServices.updateCartItem(
+      req.user._id,
+      req.params.itemId,
+      req.body.quantity
+    )
+
+    res.status(200).json({
+      success:true,
+      message:"Cart Updated Successfully",
+      data:cart
+    })
+  }catch(error){
+    next(error);
+  }
+}
+
 module.exports = {
   addToCart,
   getMyCart,
+  updateCartItem
 };

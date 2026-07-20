@@ -4,7 +4,11 @@ const cartController = require("../controllers/cart.controller");
 const authenticate = require("../middleware/auth.middleware");
 const authorize = require("../middleware/authorize.middleware");
 const validate = require("../middleware/validation.middleware");
-const { addToCartSchema } = require("../validators/cart.validator");
+const {
+  addToCartSchema,
+  updateCartItemSchema,
+  cartItemIdSchema,
+} = require("../validators/cart.validator");
 
 router.post(
   "/",
@@ -15,5 +19,14 @@ router.post(
 );
 
 router.get("/", authenticate, authorize("customer"), cartController.getMyCart);
+
+router.patch(
+  "/:itemId",
+  authenticate,
+  authorize("customer"),
+  validate(cartItemIdSchema, "params"),
+  validate(updateCartItemSchema),
+  cartController.updateCartItem,
+);
 
 module.exports = router;
