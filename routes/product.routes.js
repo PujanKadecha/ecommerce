@@ -2,7 +2,7 @@ const express = require("express");
 const productController = require("../controllers/product.controller");
 const authenticate = require("../middleware/auth.middleware");
 const authorize = require("../middleware/authorize.middleware");
-const { validate } = require("../middleware/validation.middleware");
+const validate  = require("../middleware/validation.middleware");
 const {
   createProductSchema,
   productIdSchema,

@@ -33,7 +33,9 @@ const cartSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+
     items: [cartItemSchema],
+
     subtotal: {
       type: Number,
       default: 0,
@@ -48,6 +50,7 @@ cartSchema.pre("save", function (next) {
   this.subtotal = this.items.reduce((total, item) => {
     return total + item.price * item.quantity;
   }, 0);
+
   next();
 });
 
