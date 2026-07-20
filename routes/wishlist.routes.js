@@ -9,10 +9,12 @@ const {
   productIdSchema,
 } = require("../validators/wishlist.validator");
 
+router.post(
+  "/",
+  authenticate,
+  authorize("customer"),
+  validate(addToWishlist),
+  wishlistController.addToWishlist,
+);
 
-router.post("/",
-    authenticate,
-    authorize("customer"),
-    validate(addToWishlist),
-    wishlistController.addToWishlist
-)
+module.exports = router;
