@@ -116,8 +116,51 @@ const updateCartItem = async (userId, itemId, quantity) => {
   });
   return cart;
 };
+
+const removeCartItem = async (userId, itemId) => {
+  const cart = await Cart.findOne({
+    user: userId,
+  });
+  if (!cart) {
+    const error = new Error("Cart not found");
+    error.statusCode = 404;
+    throw error;
+  }
+  const item = cart.items.id(itemId);
+
+  if (!item) {
+    const error = new Error("Cart item not found");
+    error.statusCode = 404;
+
+    throw error;
+  }
+  item.deleteOne();
+  await cart.save();
+  await cart.populate({
+    path: "items.product",
+    select: "name slug price stock images status",
+  });
+  return cart;
+};
+
+const clearCart = async (userId) => {
+  const cart = await Cart.findOne({user:userId});
+
+  if(!cart){
+    const error = new Error("Cart not Found");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  cart.items = [];
+  await cart.save();
+  return cart;
+}
+
 module.exports = {
   addToCart,
   getMyCart,
   updateCartItem,
+  removeCartItem,
+  clearCart
 };

@@ -29,4 +29,14 @@ router.patch(
   cartController.updateCartItem,
 );
 
+router.delete(
+  "/:itemId",
+  authenticate,
+  authorize("customer"),
+  validate(cartItemIdSchema, "params"),
+  cartController.removeCartItem,
+);
+
+router.delete("/",authenticate,authorize("customer"),cartController.clearCart);
+
 module.exports = router;
