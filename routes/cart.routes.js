@@ -14,4 +14,6 @@ router.post(
   cartController.addToCart,
 );
 
+router.get("/", authenticate, authorize("customer"), cartController.getMyCart);
+
 module.exports = router;

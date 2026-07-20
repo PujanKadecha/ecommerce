@@ -49,6 +49,29 @@ const addToCart = async (userId, cartData) => {
   return cart;
 };
 
+const getMyCart = async (userId) => {
+  let cart = await Cart.findOne({ user: userId }).populate({
+    path: "items.product",
+    select: "name slug price stock images status",
+  });
+
+  if (!cart) {
+    cart = new Cart({
+      user: userId,
+      items: [],
+    });
+
+    await cart.save();
+
+    await cart.populate({
+      path: "items.product",
+      select: "name slug price stock images status",
+    });
+  }
+  return cart;
+};
+
 module.exports = {
-    addToCart
+  addToCart,
+  getMyCart,
 };
