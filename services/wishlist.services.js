@@ -33,7 +33,6 @@ const addToWishlist = async (userId, wishlistData) => {
   if (exists) {
     const error = new Error("Product already exists in wishlist");
     error.statusCode = 400;
-
     throw error;
   }
   wishlist.products.push(product._id);
