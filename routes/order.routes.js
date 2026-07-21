@@ -10,6 +10,7 @@ const {
   updateOrderStatusSchema,
 } = require("../validators/order.validators");
 
+
 router.post(
   "/",
   authenticate,
@@ -29,11 +30,18 @@ router.get(
 );
 
 router.post(
-    "/:id/cancel",
-    authenticate,
-    authorize("customer"),
-    validate(orderIdSchema,"params"),
-    orderController.cancelOrder
-)
+  "/:id/cancel",
+  authenticate,
+  authorize("customer"),
+  validate(orderIdSchema, "params"),
+  orderController.cancelOrder,
+);
+
+router.get(
+  "/admin/orders",
+  authenticate,
+  authorize("admin"),
+  orderController.getAllOrders,
+);
 
 module.exports = router;

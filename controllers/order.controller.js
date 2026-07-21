@@ -42,23 +42,38 @@ const getOrderById = async (req, res, next) => {
   }
 };
 
-const cancelOrder = async(req,res,next) => {
-    try{
-        const order = await orderServices.cancelOrder(req.user._id,req.params.id);
+const cancelOrder = async (req, res, next) => {
+  try {
+    const order = await orderServices.cancelOrder(req.user._id, req.params.id);
 
-        res.status(200).json({
-            success:true,
-            message:"Order Canceled Successfully",
-            data:order
-        });
-    }catch(error){
-        next(error);
-    }
-}
+    res.status(200).json({
+      success: true,
+      message: "Order Canceled Successfully",
+      data: order,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getAllOrders = async (req, res, next) => {
+  try {
+    const result = await orderServices.getAllOrders(req.query);
+    res.status(200).json({
+      success: true,
+      message: "Orders fetched successfully",
+      data: result.orders,
+      pagination: result.pagination,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
   placeOrder,
   getOrders,
   getOrderById,
-  cancelOrder
+  cancelOrder,
+  getAllOrders
 };

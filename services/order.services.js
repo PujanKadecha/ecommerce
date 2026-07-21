@@ -206,4 +206,5 @@ module.exports = {
   getOrders,
   getOrderById,
   cancelOrder,
+  getAllOrders
 };
