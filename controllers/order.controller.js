@@ -70,10 +70,58 @@ const getAllOrders = async (req, res, next) => {
   }
 };
 
+const getAdminOrderById = async (req, res, next) => {
+  try {
+    const order = await orderServices.getAdminOrderById(req.params.id);
+
+    res.status(200).json({
+      success: true,
+      message: "Get Order By Id",
+      data: order,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const updateOrderStatus = async (req, res, next) => {
+  try {
+    const order = await orderServices.updateOrderStatus(
+      req.params.id,
+      req.body.orderStatus,
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Order status updated successfully",
+      data: order,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getDashboardStatistics = async(req,res,next) => {
+    try{
+        const dashboard = await orderServices.getDashboardStatistics();
+
+        res.status(200).json({
+            success:true,
+            message:"Dashboard fetched Successfully",
+            data:dashboard
+        })
+    }catch(error){
+        next(error);
+    }
+}
+
 module.exports = {
   placeOrder,
   getOrders,
   getOrderById,
   cancelOrder,
-  getAllOrders
+  getAllOrders,
+  getAdminOrderById,
+  updateOrderStatus,
+  getDashboardStatistics
 };

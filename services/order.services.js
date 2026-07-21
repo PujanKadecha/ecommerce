@@ -201,10 +201,151 @@ const getAllOrders = async (query) => {
   };
 };
 
+const getAdminOrderById = async (orderId) => {
+  const order = await Order.findById(orderId).populate(
+    "user",
+    "name email role",
+  );
+
+  if (!order) {
+    const error = new Error("Order Not Found");
+    error.statusCode(404);
+    throw error;
+  }
+
+  return order;
+};
+
+const updateOrderStatus = async (orderId, status) => {
+  const order = await Order.findById(orderId);
+  if (!order) {
+    const error = new Error("Order not found");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  if (order.orderStatus === "cancelled" || order.orderStatus === "delivered") {
+    const error = new Error(`Cannot update a ${order.orderStatus} order`);
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const transitions = {
+    pending: ["confirmed", "cancelled"],
+    confirmed: ["processing", "cancelled"],
+    processing: ["shipped"],
+    shipped: ["delivered"],
+  };
+
+  const allowedStatuses = transitions[order.orderStatus] || [];
+
+  if (!allowedStatuses.includes(status)) {
+    const error = new Error(
+      `Cannot change status from ${order.orderStatus} to ${status}`,
+    );
+
+    error.statusCode = 400;
+
+    throw error;
+  }
+  order.orderStatus = status;
+
+  if (status === "delivered" && order.paymentMethod === "cod") {
+    order.paymentStatus = "paid";
+  }
+  await order.save();
+  return order;
+};
+
+const getDashboardStatistics = async () => {
+  const stats = await Order.aggregate([
+    {
+      $group: {
+        _id: null,
+        totalOrders: {
+          $sum: 1,
+        },
+        totalRevenue: {
+          $sum: "$totalAmount",
+        },
+        pendingOrders: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ["$orderStatus", "pending"],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+
+        deliveredOrders: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ["$orderStatus", "delivered"],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+
+        cancelledOrders: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ["$orderStatus", "cancelled"],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+
+        paidOrders: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ["$paymentStatus", "paid"],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      },
+    },
+  ]);
+
+  const recentOrders = await Order.find()
+    .populate("user", "name email")
+    .sort({
+      createdAt: -1,
+    })
+    .limit(5);
+
+  return {
+    statistics: stats[0] || {
+      totalOrders: 0,
+      totalRevenue: 0,
+      pendingOrders: 0,
+      deliveredOrders: 0,
+      cancelledOrders: 0,
+      paidOrders: 0,
+    },
+    recentOrders,
+  };
+};
+
 module.exports = {
   placeOrder,
   getOrders,
   getOrderById,
   cancelOrder,
-  getAllOrders
+  getAllOrders,
+  getAdminOrderById,
+  updateOrderStatus,
+  getDashboardStatistics
 };

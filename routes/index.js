@@ -20,8 +20,8 @@ router.use("/categories", categoryRoutes);
 router.use("/cart", cartRoutes);
 router.use("/wishlist",wishlistRoutes);
 router.use("/orders", orderRoutes);
-router.use("/reviews", reviewRoutes);
 router.use("/address",addressRoutes);
+router.use("/reviews", reviewRoutes);
 
 
 module.exports = router;

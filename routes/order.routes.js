@@ -10,7 +10,6 @@ const {
   updateOrderStatusSchema,
 } = require("../validators/order.validators");
 
-
 router.post(
   "/",
   authenticate,
@@ -43,5 +42,31 @@ router.get(
   authorize("admin"),
   orderController.getAllOrders,
 );
+
+router.get(
+  "/admin/orders/dashboard",
+  authenticate,
+  authorize("admin"),
+  orderController.getDashboardStatistics,
+);
+
+router.get(
+  "/admin/orders/:id",
+  authenticate,
+  authorize("admin"),
+  validate(orderIdSchema, "params"),
+  orderController.getAdminOrderById,
+);
+
+router.patch(
+  "/admin/orders/:id/status",
+  authenticate,
+  authorize("admin"),
+  validate(orderIdSchema, "params"),
+  validate(updateOrderStatusSchema),
+  orderController.updateOrderStatus,
+);
+
+
 
 module.exports = router;
