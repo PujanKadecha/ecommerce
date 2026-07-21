@@ -17,4 +17,26 @@ router.post(
   wishlistController.addToWishlist,
 );
 
+router.get(
+  "/",
+  authenticate,
+  authorize("customer"),
+  wishlistController.getMyWishlist,
+);
+
+router.delete(
+  "/:productId",
+  authenticate,
+  authorize("customer"),
+  validate(productIdSchema, "params"),
+  wishlistController.removeFromWishlist,
+);
+
+router.delete(
+  "/",
+  authenticate,
+  authorize("customer"),
+  wishlistController.clearWishlist
+)
+
 module.exports = router;
