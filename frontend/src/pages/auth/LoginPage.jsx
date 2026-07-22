@@ -5,11 +5,14 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+
+import { login } from "../../store/slices/auth.slice";
 
 import { Link } from "react-router-dom";
-
 import { useForm } from "react-hook-form";
-
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import InputField from "../../components/forms/InputField";
@@ -28,8 +31,22 @@ function LoginPage() {
     resolver: yupResolver(loginSchema),
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const { loading, error } = useSelector((state) => state.auth);
+
+  const onSubmit = async (data) => {
+    const result = await dispatch(login(data));
+
+    if (login.fulfilled.match(result)) {
+      toast.success(result.payload.message);
+
+      navigate("/");
+    } else {
+      toast.error(result.payload?.message || "Login Failed");
+    }
   };
 
   return (
@@ -70,9 +87,20 @@ function LoginPage() {
           </Typography>
         </Stack>
 
-        <Button fullWidth type="submit" variant="contained" sx={{ mt: 3 }}>
-          Login
+        <Button
+          type="submit"
+          variant="contained"
+          fullWidth
+          disabled={loading}
+          sx={{ mt: 3 }}
+        >
+          {loading ? "Logging In..." : "Login"}
         </Button>
+        {error && (
+          <Typography color="error" mt={2} textAlign="center">
+            {error}
+          </Typography>
+        )}
 
         <Typography textAlign="center" mt={3}>
           Don't have an account? <Link to="/auth/register">Register</Link>

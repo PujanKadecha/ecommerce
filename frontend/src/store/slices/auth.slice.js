@@ -18,19 +18,14 @@ const initialState = {
   error: null,
 };
 
-export const login = createAsyncThunk(
-  "auth/login",
-
-  async (data, thunkAPI) => {
-    try {
-      const response = await loginUser(data);
-
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
-    }
-  },
-);
+export const login = createAsyncThunk("auth/login", async (data, thunkAPI) => {
+  try {
+    const response = await loginUser(data);
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+});
 
 export const register = createAsyncThunk(
   "auth/register",
@@ -124,11 +119,33 @@ const authSlice = createSlice({
         state.error = action.payload?.message;
       })
 
-      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
-        state.user = action.payload.data;
+        
+      .addCase(fetchCurrentUser.pending, (state) => {
 
-        state.isAuthenticated = true;
+          state.loading = true;
+
       })
+
+      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+
+          state.loading = false;
+
+          state.user = action.payload.data;
+
+          state.isAuthenticated = true;
+
+      })
+
+      .addCase(fetchCurrentUser.rejected, (state) => {
+
+          state.loading = false;
+
+          state.user = null;
+
+          state.isAuthenticated = false;
+
+      })
+
 
       .addCase(logout.fulfilled, (state) => {
         state.user = null;

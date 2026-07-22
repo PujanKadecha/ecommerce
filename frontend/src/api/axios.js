@@ -22,14 +22,6 @@ api.interceptors.request.use(
 );
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      removeAccessToken();
-      window.location.href = "/auth/login";
-    }
-    return Promise.reject(error);
-  },
+  (error) => Promise.reject(error),
 );
-api.get("/products");
-
 export default api;

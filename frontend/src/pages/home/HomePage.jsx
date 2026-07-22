@@ -1,47 +1,20 @@
-// import { useEffect } from "react";
-// import { loginUser } from "../../api/auth.api";
-
-// function HomePage() {
-//   useEffect(() => {
-//     const login = async () => {
-//       try {
-//         const response = await loginUser({
-//           email: "pujan@gmail.com",
-
-//           password: "Pujan12345!",
-//         });
-
-//         console.log(response.data);
-//       } catch (error) {
-//         console.log(error.response?.data);
-//       }
-//     };
-
-//     login();
-//   }, []);
-
-//   return <h1>Home</h1>;
-// }
-
-// export default HomePage;
-
-import { useDispatch } from "react-redux";
-import { login } from "../../store/slices/auth.slice";
+import { Container } from "@mui/material";
+import HeroBanner from "../../components/home/HeroBanner";
+import CategoriesSection from "../../components/home/CategoriesSection";
 
 function HomePage() {
-  const dispatch = useDispatch();
+  return (
+    <Container
+      maxWidth="xl"
+      sx={{
+        mt: 4,
+      }}
+    >
+      <HeroBanner />
 
-  const handleLogin = () => {
-    dispatch(
-      login({
-        email: "pujan@gmail.com",
-
-        password: "Pujan12345!",
-      }),
-    );
-  };
-
-  return <button onClick={handleLogin}>Test Login</button>;
+      <CategoriesSection />
+    </Container>
+  );
 }
 
 export default HomePage;
