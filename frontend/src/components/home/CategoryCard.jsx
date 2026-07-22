@@ -1,81 +1,41 @@
-import { Container, Grid, Typography } from "@mui/material";
+import { Card, CardActionArea, Typography, Box } from "@mui/material";
+import { Link } from "react-router-dom";
 
-import {
-  PhoneIphone,
-  Laptop,
-  Checkroom,
-  SportsEsports,
-  Watch,
-  MenuBook,
-  Diamond,
-  Headphones,
-} from "@mui/icons-material";
-
-import CategoryCard from "./CategoryCard";
-
-const categories = [
-  {
-    name: "Electronics",
-    icon: <Laptop fontSize="inherit" />,
-  },
-  {
-    name: "Mobiles",
-    icon: <PhoneIphone fontSize="inherit" />,
-  },
-  {
-    name: "Fashion",
-    icon: <Checkroom fontSize="inherit" />,
-  },
-  {
-    name: "Gaming",
-    icon: <SportsEsports fontSize="inherit" />,
-  },
-  {
-    name: "Watches",
-    icon: <Watch fontSize="inherit" />,
-  },
-  {
-    name: "Books",
-    icon: <MenuBook fontSize="inherit" />,
-  },
-  {
-    name: "Jewellery",
-    icon: <Diamond fontSize="inherit" />,
-  },
-  {
-    name: "Accessories",
-    icon: <Headphones fontSize="inherit" />,
-  },
-];
-
-function CategoriesSection() {
+function CategoryCard({ name, icon }) {
   return (
-    <Container
-      maxWidth="lg"
+    <Card
       sx={{
-        mt: 8,
+        transition: "0.3s",
+        "&:hover": {
+          transform: "translateY(-6px)",
+          boxShadow: 6,
+        },
       }}
     >
-      <Typography variant="h4" fontWeight="bold" mb={4}>
-        Shop by Category
-      </Typography>
+      <CardActionArea
+        component={Link}
+        to={`/products?category=${encodeURIComponent(name)}`}
+        sx={{
+          py: 4,
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+        }}
+      >
+        <Box
+          sx={{
+            fontSize: 50,
+          }}
+        >
+          {icon}
+        </Box>
 
-      <Grid container spacing={3}>
-        {categories.map((category) => (
-          <Grid
-            key={category.name}
-            size={{
-              xs: 6,
-              sm: 4,
-              md: 3,
-            }}
-          >
-            <CategoryCard name={category.name} icon={category.icon} />
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
+        <Typography variant="h6" fontWeight="bold">
+          {name}
+        </Typography>
+      </CardActionArea>
+    </Card>
   );
 }
 
-export default CategoriesSection;
+export default CategoryCard;
