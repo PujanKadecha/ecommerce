@@ -17,7 +17,7 @@ const registerSchema = Joi.object({
         "Password must contain uppercase, lowercase, number and special character.",
     }),
 
-  phone: Joi.string().allow("").optional(),
+  
 });
 
 const loginSchema = Joi.object({
