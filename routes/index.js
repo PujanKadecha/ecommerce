@@ -9,6 +9,7 @@ const orderRoutes = require("./order.routes");
 const reviewRoutes = require("./review.routes");
 const wishlistRoutes = require("./wishlist.routes");
 const addressRoutes = require("./address.routes");
+const paymentRoutes = require("./payment.routes");
 
 const router = express.Router();
 
@@ -21,6 +22,7 @@ router.use("/cart", cartRoutes);
 router.use("/wishlist",wishlistRoutes);
 router.use("/orders", orderRoutes);
 router.use("/address",addressRoutes);
+router.use("/payment",paymentRoutes);
 router.use("/reviews", reviewRoutes);
 
 
