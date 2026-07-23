@@ -108,7 +108,7 @@ function ProductPage() {
       ) : (
         <Grid container spacing={{ xs: 2.5, md: 4 }}>
           {filteredProducts.map((product) => (
-            <Grid key={product._id} item xs={6} sm={6} md={3}>
+            <Grid key={product._id} item xs={6} sm={6} md={3} sx={{ display: "flex" }}>
               <ProductCard product={product} />
             </Grid>
           ))}

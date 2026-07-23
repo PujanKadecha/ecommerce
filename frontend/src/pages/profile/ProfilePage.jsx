@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../store/slices/auth.slice";
+import { logout, logoutLocal } from "../../store/slices/auth.slice";
 import toast from "react-hot-toast";
 
 function ProfilePage() {
@@ -19,9 +19,17 @@ function ProfilePage() {
   const { user } = useSelector((state) => state.auth || {});
 
   const handleLogout = async () => {
-    await dispatch(logout());
+    // Clear local state immediately — user is logged out right away
+    dispatch(logoutLocal());
     toast.success("Logged out successfully");
     navigate("/auth/login");
+    // Best-effort server-side logout (invalidate refresh token)
+    try {
+      const refreshToken = JSON.parse(
+        localStorage.getItem("persist:auth") || "{}"
+      )?.refreshToken;
+      dispatch(logout(refreshToken));
+    } catch (_) { /* ignore */ }
   };
 
   return (

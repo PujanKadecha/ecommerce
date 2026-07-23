@@ -7,8 +7,7 @@ function ProductCard({ product }) {
   const navigate = useNavigate();
 
   const imageUrl =
-    product.images?.[0]?.url ||
-    "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop";
+    product.images?.[0]?.url ||"";
 
   return (
     <Box
@@ -18,6 +17,7 @@ function ProductCard({ product }) {
         display: "flex",
         flexDirection: "column",
         height: "100%",
+        width: "100%",
       }}
     >
       <Box
@@ -27,10 +27,11 @@ function ProductCard({ product }) {
         sx={{
           position: "relative",
           width: "100%",
-          paddingTop: "133%", // 3:4 Aspect Ratio
+          height: { xs: "200px", sm: "260px", md: "300px" },
           backgroundColor: "#f5f5f5",
           overflow: "hidden",
           display: "block",
+          flexShrink: 0,
         }}
       >
         <Box
@@ -38,12 +39,11 @@ function ProductCard({ product }) {
           src={imageUrl}
           alt={product.name}
           sx={{
-            position: "absolute",
-            top: 0,
-            left: 0,
             width: "100%",
             height: "100%",
             objectFit: "cover",
+            objectPosition: "center",
+            display: "block",
           }}
         />
 

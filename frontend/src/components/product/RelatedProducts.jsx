@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Typography, Grid, Box } from "@mui/material";
 import api from "../../api/axios";
 import ProductCard from "./ProductCard";
-
+  
 function RelatedProducts({ product }) {
   const [products, setProducts] = useState([]);
 
@@ -70,7 +70,7 @@ function RelatedProducts({ product }) {
 
       <Grid container spacing={{ xs: 2.5, md: 4 }}>
         {products.map((item) => (
-          <Grid key={item._id} item xs={6} sm={6} md={3}>
+          <Grid key={item._id} item xs={6} sm={6} md={3} sx={{ display: "flex" }}>
             <ProductCard product={item} />
           </Grid>
         ))}

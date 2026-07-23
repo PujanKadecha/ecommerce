@@ -26,7 +26,11 @@ function CheckoutPage() {
   const navigate = useNavigate();
   const { items, subtotal } = useSelector((state) => state.cart || {});
 
+  const { user } = useSelector((state) => state.auth || {});
+
   const [address, setAddress] = useState({
+    fullName: user ? `${user.firstName || ""} ${user.lastName || ""}`.trim() || "Customer Name" : "Customer Name",
+    phone: user?.phone || "9876543210",
     street: "",
     city: "",
     state: "",
@@ -46,35 +50,63 @@ function CheckoutPage() {
 
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
-    if (!address.street || !address.city || !address.state || !address.zipCode) {
-      setErrorMessage("Please complete all shipping address fields.");
+    if (!address.fullName || !address.phone || !address.street || !address.city || !address.state || !address.zipCode) {
+      setErrorMessage("Please complete all required shipping address fields.");
+      return;
+    }
+
+    if (!/^[6-9]\d{9}$/.test(address.phone)) {
+      setErrorMessage("Phone number must be a valid 10-digit number starting with 6-9 (e.g. 9876543210).");
+      return;
+    }
+
+    if (!/^\d{6}$/.test(address.zipCode)) {
+      setErrorMessage("PIN / Zip Code must be a 6-digit number (e.g. 384001).");
       return;
     }
 
     setSubmitting(true);
     setErrorMessage("");
 
-    const orderData = {
-      shippingAddress: address,
-      paymentMethod,
-      items: items.map((i) => ({
-        product: i.product._id || i.product,
-        quantity: i.quantity,
-        price: i.product.price,
-      })),
-      totalAmount: grandTotal,
-    };
+    try {
+      // 1. Create/Save address to backend
+      const addressRes = await import("../../api/address.api").then((m) =>
+        m.addAddress({
+          fullName: address.fullName.trim(),
+          phone: address.phone.trim(),
+          addressLine1: address.street.trim(),
+          city: address.city.trim(),
+          state: address.state.trim(),
+          postalCode: address.zipCode.trim(),
+          country: address.country.trim() || "India",
+        })
+      );
 
-    const result = await dispatch(createOrder(orderData));
+      const addressId = addressRes.data?.data?._id;
+      if (!addressId) {
+        throw new Error("Failed to save shipping address.");
+      }
 
-    if (createOrder.fulfilled.match(result)) {
-      dispatch(clearCart());
-      toast.success("Order Placed Successfully!");
-      navigate("/orders");
-    } else {
-      setErrorMessage(result.payload || "Failed to place order. Please try again.");
+      // 2. Map payment method to lowercase ("cod" or "stripe")
+      const mappedPayment = paymentMethod === "COD" ? "cod" : "stripe";
+
+      // 3. Dispatch order creation with addressId and paymentMethod
+      const result = await dispatch(createOrder({ addressId, paymentMethod: mappedPayment }));
+
+      if (createOrder.fulfilled.match(result)) {
+        dispatch(clearCart());
+        toast.success("Order Placed Successfully!");
+        navigate("/orders");
+      } else {
+        setErrorMessage(result.payload || "Failed to place order. Please try again.");
+      }
+    } catch (err) {
+      setErrorMessage(
+        err.response?.data?.message || err.message || "Failed to process order. Please try again."
+      );
+    } finally {
+      setSubmitting(false);
     }
-    setSubmitting(false);
   };
 
   if (!items || items.length === 0) {
@@ -149,6 +181,29 @@ function CheckoutPage() {
                 </Typography>
 
                 <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      label="FULL NAME"
+                      name="fullName"
+                      value={address.fullName}
+                      onChange={handleInputChange}
+                      fullWidth
+                      required
+                      variant="outlined"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      label="PHONE NUMBER (10 digits)"
+                      name="phone"
+                      value={address.phone}
+                      onChange={handleInputChange}
+                      placeholder="9876543210"
+                      fullWidth
+                      required
+                      variant="outlined"
+                    />
+                  </Grid>
                   <Grid item xs={12}>
                     <TextField
                       label="STREET ADDRESS"
@@ -184,10 +239,11 @@ function CheckoutPage() {
                   </Grid>
                   <Grid item xs={6}>
                     <TextField
-                      label="PIN / ZIP CODE"
+                      label="PIN / ZIP CODE (6 digits)"
                       name="zipCode"
                       value={address.zipCode}
                       onChange={handleInputChange}
+                      placeholder="384001"
                       fullWidth
                       required
                       variant="outlined"

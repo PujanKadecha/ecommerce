@@ -25,6 +25,9 @@ export const login = createAsyncThunk("auth/login", async (data, thunkAPI) => {
     if (response.data?.data?.accessToken) {
       setAccessToken(response.data.data.accessToken);
     }
+    if (response.data?.data?.refreshToken) {
+      localStorage.setItem("refreshToken", response.data.data.refreshToken);
+    }
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data);
@@ -66,8 +69,10 @@ export const logout = createAsyncThunk(
     try {
       await logoutUser(refreshToken);
       removeAccessToken();
+      localStorage.removeItem("refreshToken");
     } catch (error) {
       removeAccessToken();
+      localStorage.removeItem("refreshToken");
       return thunkAPI.rejectWithValue(error.response?.data);
     }
   },
@@ -80,6 +85,12 @@ const authSlice = createSlice({
 
   reducers: {
     clearError(state) {
+      state.error = null;
+    },
+    logoutLocal(state) {
+      state.user = null;
+      state.accessToken = null;
+      state.isAuthenticated = false;
       state.error = null;
     },
   },
@@ -155,14 +166,18 @@ const authSlice = createSlice({
 
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
-
         state.accessToken = null;
-
+        state.isAuthenticated = false;
+      })
+      .addCase(logout.rejected, (state) => {
+        // Still clear local state even if server logout fails
+        state.user = null;
+        state.accessToken = null;
         state.isAuthenticated = false;
       });
   },
 });
 
-export const { clearError } = authSlice.actions;
+export const { clearError, logoutLocal } = authSlice.actions;
 
 export default authSlice.reducer;
