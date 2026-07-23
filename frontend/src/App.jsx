@@ -6,6 +6,8 @@ import { useDispatch } from "react-redux";
 import { fetchCurrentUser } from "./store/slices/auth.slice";
 import theme from "./theme/theme";
 
+import { Toaster } from "react-hot-toast";
+
 function App() {
   const dispatch = useDispatch();
 
@@ -16,6 +18,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <Toaster position="top-center" reverseOrder={false} />
       <AppRoutes />
     </ThemeProvider>
   );

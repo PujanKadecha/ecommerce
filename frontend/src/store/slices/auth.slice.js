@@ -5,6 +5,7 @@ import {
   logoutUser,
   getCurrentUser,
 } from "../../api/auth.api";
+import { setAccessToken, removeAccessToken } from "../../utils/token";
 
 const initialState = {
   user: null,
@@ -21,6 +22,9 @@ const initialState = {
 export const login = createAsyncThunk("auth/login", async (data, thunkAPI) => {
   try {
     const response = await loginUser(data);
+    if (response.data?.data?.accessToken) {
+      setAccessToken(response.data.data.accessToken);
+    }
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data);
@@ -61,7 +65,9 @@ export const logout = createAsyncThunk(
   async (refreshToken, thunkAPI) => {
     try {
       await logoutUser(refreshToken);
+      removeAccessToken();
     } catch (error) {
+      removeAccessToken();
       return thunkAPI.rejectWithValue(error.response?.data);
     }
   },

@@ -2,18 +2,31 @@ import { useState } from "react";
 import { Box, Chip, Divider, Rating, Stack, Typography, Button } from "@mui/material";
 import QuantitySelector from "./QuantitySelector";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { addItemToCart } from "../../store/slices/cart.slice";
+import toast from "react-hot-toast";
 
 function ProductInfo({ product }) {
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleAddToCart = () => {
-    console.log("Add To Cart:", product, "Quantity:", quantity);
-    // Dispatches cart action if needed
+  const handleAddToCart = async () => {
+    const result = await dispatch(addItemToCart({ productId: product._id, quantity }));
+    if (addItemToCart.fulfilled.match(result)) {
+      toast.success("Added to shopping bag!");
+    } else {
+      toast.error(result.payload || "Please login to add items to cart.");
+    }
   };
 
-  const handleBuyNow = () => {
-    console.log("Buy Now:", product, "Quantity:", quantity);
+  const handleBuyNow = async () => {
+    const result = await dispatch(addItemToCart({ productId: product._id, quantity }));
+    if (addItemToCart.fulfilled.match(result)) {
+      navigate("/cart");
+    } else {
+      toast.error(result.payload || "Please login to process action.");
+    }
   };
 
   return (

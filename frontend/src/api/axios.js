@@ -22,6 +22,11 @@ api.interceptors.request.use(
 );
 api.interceptors.response.use(
   (response) => response,
-  (error) => Promise.reject(error),
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      removeAccessToken();
+    }
+    return Promise.reject(error);
+  },
 );
 export default api;

@@ -1,49 +1,37 @@
-import { useEffect, useState } from "react";
-import { Container, Typography, Grid, Box, Chip, Stack } from "@mui/material";
+import { useEffect } from "react";
+import { Container, Typography, Grid, Box, Chip, Stack, CircularProgress } from "@mui/material";
 import { useSearchParams } from "react-router-dom";
-import api from "../../api/axios";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProducts } from "../../store/slices/product.slice";
 import ProductCard from "../../components/product/ProductCard";
 
 function ProductPage() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const { products, loading } = useSelector((state) => state.product || {});
   const [searchParams, setSearchParams] = useSearchParams();
 
   const selectedCategory = searchParams.get("category") || "";
   const searchQuery = searchParams.get("search") || "";
 
   useEffect(() => {
-    const loadProducts = async () => {
-      setLoading(true);
-      try {
-        const res = await api.get("/products");
-        let fetched = res.data?.data || [];
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
-        if (selectedCategory) {
-          fetched = fetched.filter(
-            (p) =>
-              p.category?.toLowerCase() === selectedCategory.toLowerCase()
-          );
-        }
+  let filteredProducts = products || [];
 
-        if (searchQuery) {
-          fetched = fetched.filter(
-            (p) =>
-              p.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-              p.description?.toLowerCase().includes(searchQuery.toLowerCase())
-          );
-        }
+  if (selectedCategory) {
+    filteredProducts = filteredProducts.filter(
+      (p) => p.category?.toLowerCase() === selectedCategory.toLowerCase()
+    );
+  }
 
-        setProducts(fetched);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadProducts();
-  }, [selectedCategory, searchQuery]);
+  if (searchQuery) {
+    filteredProducts = filteredProducts.filter(
+      (p) =>
+        p.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.description?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }
 
   return (
     <Container maxWidth="xl" sx={{ px: { xs: 3, md: 8 }, py: { xs: 6, md: 10 } }}>
@@ -76,7 +64,7 @@ function ProductPage() {
         </Typography>
 
         <Typography variant="body2" sx={{ color: "#666666", mt: 1 }}>
-          Showing {products.length} items
+          Showing {filteredProducts.length} items
         </Typography>
       </Box>
 
@@ -107,7 +95,11 @@ function ProductPage() {
       )}
 
       {/* Products Grid */}
-      {products.length === 0 && !loading ? (
+      {loading && filteredProducts.length === 0 ? (
+        <Box sx={{ py: 10, textAlign: "center" }}>
+          <CircularProgress sx={{ color: "#000000" }} />
+        </Box>
+      ) : filteredProducts.length === 0 ? (
         <Box sx={{ py: 10, textAlign: "center" }}>
           <Typography variant="h6" sx={{ fontWeight: 600, color: "#666666" }}>
             No products found matching your criteria.
@@ -115,7 +107,7 @@ function ProductPage() {
         </Box>
       ) : (
         <Grid container spacing={{ xs: 2.5, md: 4 }}>
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <Grid key={product._id} item xs={6} sm={6} md={3}>
               <ProductCard product={product} />
             </Grid>

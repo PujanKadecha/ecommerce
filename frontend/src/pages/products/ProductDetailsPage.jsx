@@ -1,32 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Grid, Typography, Box, CircularProgress } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProductById } from "../../store/slices/product.slice";
 import ProductGallery from "../../components/product/ProductGallery";
-import api from "../../api/axios";
 import ProductInfo from "../../components/product/ProductInfo";
 import ProductTabs from "../../components/product/ProductTabs";
 import RelatedProducts from "../../components/product/RelatedProducts";
 
 function ProductDetailsPage() {
   const { id } = useParams();
-  const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const { product, loading } = useSelector((state) => state.product || {});
 
   useEffect(() => {
-    const loadProduct = async () => {
-      setLoading(true);
-      try {
-        const res = await api.get(`/products/${id}`);
-        setProduct(res.data.data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadProduct();
-  }, [id]);
+    if (id) {
+      dispatch(fetchProductById(id));
+    }
+  }, [id, dispatch]);
 
   if (loading) {
     return (

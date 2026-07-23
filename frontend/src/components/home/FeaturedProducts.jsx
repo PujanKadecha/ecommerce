@@ -1,23 +1,18 @@
-import { useEffect, useState } from "react";
-import { Container, Typography, Grid, Box } from "@mui/material";
-import api from "../../api/axios";
+import { useEffect } from "react";
+import { Container, Typography, Grid, Box, CircularProgress } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProducts } from "../../store/slices/product.slice";
 import ProductCard from "../product/ProductCard";
 
 function FeaturedProducts() {
-  const [products, setProducts] = useState([]);
+  const dispatch = useDispatch();
+  const { products, loading } = useSelector((state) => state.product || {});
 
   useEffect(() => {
-    const loadProducts = async () => {
-      try {
-        const res = await api.get("/products");
-        const fetchedProducts = res.data?.data || [];
-        setProducts(fetchedProducts.slice(0, 8));
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    loadProducts();
-  }, []);
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
+  const featured = (products || []).slice(0, 8);
 
   return (
     <Container
@@ -55,13 +50,19 @@ function FeaturedProducts() {
         </Typography>
       </Box>
 
-      <Grid container spacing={{ xs: 2.5, md: 4 }}>
-        {products.map((product) => (
-          <Grid key={product._id} item xs={6} sm={6} md={3}>
-            <ProductCard product={product} />
-          </Grid>
-        ))}
-      </Grid>
+      {loading && (products || []).length === 0 ? (
+        <Box sx={{ py: 8, textAlign: "center" }}>
+          <CircularProgress sx={{ color: "#000000" }} />
+        </Box>
+      ) : (
+        <Grid container spacing={{ xs: 2.5, md: 4 }}>
+          {featured.map((product) => (
+            <Grid key={product._id} item xs={6} sm={6} md={3}>
+              <ProductCard product={product} />
+            </Grid>
+          ))}
+        </Grid>
+      )}
     </Container>
   );
 }
