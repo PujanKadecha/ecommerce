@@ -1,40 +1,79 @@
-import { Card, CardActionArea, Typography, Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
-function CategoryCard({ name, icon }) {
+function CategoryCard({ name, image }) {
   return (
-    <Card
+    <Box
+      component={Link}
+      to={`/products?category=${encodeURIComponent(name)}`}
+      className="img-zoom-container"
       sx={{
-        transition: "0.3s",
-        "&:hover": {
-          transform: "translateY(-6px)",
-          boxShadow: 6,
-        },
+        position: "relative",
+        display: "block",
+        width: "100%",
+        height: { xs: 240, sm: 300, md: 360 },
+        overflow: "hidden",
+        textDecoration: "none",
+        color: "#ffffff",
+        backgroundColor: "#111111",
       }}
     >
-      <CardActionArea
-        component={Link}
-        to={`/products?category=${encodeURIComponent(name)}`}
+      <Box
+        component="img"
+        src={image}
+        alt={name}
         sx={{
-          py: 4,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          display: "block",
+          filter: "brightness(0.85)",
+        }}
+      />
+      
+      {/* Subtle Overlay */}
+      <Box
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.1) 60%, rgba(0,0,0,0) 100%)",
           display: "flex",
           flexDirection: "column",
-          gap: 2,
+          justifyContent: "flex-end",
+          p: 3,
         }}
       >
-        <Box
+        <Typography
+          variant="h6"
           sx={{
-            fontSize: 50,
+            fontWeight: 700,
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+            fontSize: { xs: "0.95rem", md: "1.1rem" },
+            color: "#ffffff",
           }}
         >
-          {icon}
-        </Box>
-
-        <Typography variant="h6" fontWeight="bold">
           {name}
         </Typography>
-      </CardActionArea>
-    </Card>
+
+        <Typography
+          variant="caption"
+          sx={{
+            fontWeight: 600,
+            letterSpacing: "0.15em",
+            textTransform: "uppercase",
+            fontSize: "0.7rem",
+            color: "rgba(255, 255, 255, 0.7)",
+            mt: 0.5,
+          }}
+        >
+          Explore Category →
+        </Typography>
+      </Box>
+    </Box>
   );
 }
 

@@ -1,80 +1,191 @@
-import { Box, Chip, Divider, Rating, Stack, Typography } from "@mui/material";
-import { Button } from "@mui/material";
 import { useState } from "react";
+import { Box, Chip, Divider, Rating, Stack, Typography, Button } from "@mui/material";
 import QuantitySelector from "./QuantitySelector";
+import { useDispatch } from "react-redux";
 
 function ProductInfo({ product }) {
   const [quantity, setQuantity] = useState(1);
+  const dispatch = useDispatch();
+
+  const handleAddToCart = () => {
+    console.log("Add To Cart:", product, "Quantity:", quantity);
+    // Dispatches cart action if needed
+  };
+
+  const handleBuyNow = () => {
+    console.log("Buy Now:", product, "Quantity:", quantity);
+  };
+
   return (
-    <Box>
-      <Typography variant="h4" fontWeight="bold" gutterBottom>
+    <Box
+      sx={{
+        position: { md: "sticky" },
+        top: { md: 100 },
+      }}
+    >
+      {/* Category & Brand */}
+      <Stack direction="row" spacing={1} alignItems="center" mb={1}>
+        {product.category && (
+          <Typography
+            variant="caption"
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "0.15em",
+              textTransform: "uppercase",
+              color: "#888888",
+              fontSize: "0.75rem",
+            }}
+          >
+            {product.category}
+          </Typography>
+        )}
+        {product.category && product.brand && (
+          <Typography variant="caption" sx={{ color: "#cccccc" }}>
+            •
+          </Typography>
+        )}
+        {product.brand && (
+          <Typography
+            variant="caption"
+            sx={{
+              fontWeight: 600,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: "#666666",
+              fontSize: "0.75rem",
+            }}
+          >
+            {product.brand}
+          </Typography>
+        )}
+      </Stack>
+
+      {/* Product Title */}
+      <Typography
+        variant="h3"
+        sx={{
+          fontWeight: 800,
+          letterSpacing: "-0.02em",
+          fontSize: { xs: "1.75rem", md: "2.25rem" },
+          color: "#000000",
+          mb: 1.5,
+          lineHeight: 1.2,
+        }}
+      >
         {product.name}
       </Typography>
 
-      <Stack direction="row" spacing={2} alignItems="center" mb={2}>
-        <Rating value={product.averageRating || 0} precision={0.5} readOnly />
+      {/* Rating & Stock */}
+      <Stack direction="row" spacing={2} alignItems="center" mb={3}>
+        <Rating
+          value={product.averageRating || 4.5}
+          precision={0.5}
+          readOnly
+          size="small"
+          sx={{ color: "#000000" }}
+        />
 
-        <Typography color="text.secondary">
+        <Typography variant="caption" sx={{ color: "#666666", fontWeight: 500 }}>
           ({product.numReviews || 0} Reviews)
         </Typography>
+
+        <Chip
+          label={product.stock > 0 ? "IN STOCK" : "OUT OF STOCK"}
+          sx={{
+            height: 22,
+            fontSize: "0.65rem",
+            backgroundColor: product.stock > 0 ? "#000000" : "#e5e5e5",
+            color: product.stock > 0 ? "#ffffff" : "#666666",
+            fontWeight: 700,
+            letterSpacing: "0.08em",
+          }}
+        />
       </Stack>
 
-      <Divider sx={{ mb: 2 }} />
-
-      <Typography mb={1}>
-        <strong>Brand:</strong> {product.brand || "N/A"}
+      {/* Price */}
+      <Typography
+        variant="h4"
+        sx={{
+          fontWeight: 800,
+          color: "#000000",
+          mb: 3,
+          letterSpacing: "-0.02em",
+        }}
+      >
+        ₹{product.price?.toLocaleString() || product.price}
       </Typography>
 
-      <Typography mb={2}>
-        <strong>Category:</strong> {product.category || "N/A"}
-      </Typography>
+      <Divider sx={{ mb: 3, borderColor: "#e5e5e5" }} />
 
-      <Typography variant="h4" color="primary" fontWeight="bold" mb={3}>
-        ₹ {product.price}
-      </Typography>
+      {/* Description Snippet */}
+      {product.description && (
+        <Typography
+          variant="body2"
+          sx={{
+            color: "#555555",
+            lineHeight: 1.8,
+            mb: 3,
+            fontSize: "0.9rem",
+          }}
+        >
+          {product.description}
+        </Typography>
+      )}
 
-      <Chip
-        label={product.stock > 0 ? "In Stock" : "Out of Stock"}
-        color={product.stock > 0 ? "success" : "error"}
-        sx={{ mb: 3 }}
-      />
-
-      <Typography variant="h6" gutterBottom>
-        Description
-      </Typography>
-
+      {/* Quantity Selector */}
       <QuantitySelector
         quantity={quantity}
         setQuantity={setQuantity}
-        max={product.stock}
+        max={product.stock || 99}
       />
 
-      <Button
-        variant="contained"
-        fullWidth
-        size="large"
-        sx={{
-          mb: 2,
-        }}
-        disabled={product.stock === 0}
-        onClick={() => {
-          console.log("Add To Cart", product, quantity);
-        }}
-      >
-        Add To Cart
-      </Button>
+      {/* Action Buttons */}
+      <Stack spacing={2} sx={{ mt: 4 }}>
+        <Button
+          variant="contained"
+          fullWidth
+          size="large"
+          disabled={product.stock === 0}
+          onClick={handleAddToCart}
+          sx={{
+            backgroundColor: "#000000",
+            color: "#ffffff",
+            py: 1.8,
+            fontSize: "0.85rem",
+            fontWeight: 700,
+            letterSpacing: "0.12em",
+            "&:hover": {
+              backgroundColor: "#222222",
+            },
+          }}
+        >
+          Add To Shopping Bag
+        </Button>
 
-      <Button
-        variant="outlined"
-        fullWidth
-        size="large"
-        disabled={product.stock === 0}
-        onClick={() => {
-          console.log("Buy Now", product, quantity);
-        }}
-      >
-        Buy Now
-      </Button>
+        <Button
+          variant="outlined"
+          fullWidth
+          size="large"
+          disabled={product.stock === 0}
+          onClick={handleBuyNow}
+          sx={{
+            borderColor: "#000000",
+            color: "#000000",
+            py: 1.8,
+            fontSize: "0.85rem",
+            fontWeight: 700,
+            letterSpacing: "0.12em",
+            borderWidth: "1.5px",
+            "&:hover": {
+              borderWidth: "1.5px",
+              backgroundColor: "#000000",
+              color: "#ffffff",
+            },
+          }}
+        >
+          Buy Now
+        </Button>
+      </Stack>
     </Box>
   );
 }

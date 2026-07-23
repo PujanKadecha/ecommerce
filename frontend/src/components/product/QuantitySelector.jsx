@@ -1,7 +1,7 @@
 import { Box, IconButton, Typography } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
 
-function QuantitySelector({ quantity, setQuantity, max }) {
+function QuantitySelector({ quantity, setQuantity, max = 99 }) {
   const decrease = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
@@ -15,34 +15,69 @@ function QuantitySelector({ quantity, setQuantity, max }) {
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        gap: 2,
-        mt: 3,
-        mb: 3,
-      }}
-    >
-      <Typography fontWeight="bold">Quantity</Typography>
-
-      <IconButton onClick={decrease}>
-        <Remove />
-      </IconButton>
-
+    <Box sx={{ my: 3 }}>
       <Typography
-        variant="h6"
+        variant="caption"
         sx={{
-          width: 40,
-          textAlign: "center",
+          fontWeight: 700,
+          letterSpacing: "0.12em",
+          textTransform: "uppercase",
+          color: "#666666",
+          display: "block",
+          mb: 1,
         }}
       >
-        {quantity}
+        Quantity
       </Typography>
 
-      <IconButton onClick={increase}>
-        <Add />
-      </IconButton>
+      <Box
+        sx={{
+          display: "inline-flex",
+          alignItems: "center",
+          border: "1px solid #111111",
+          height: 44,
+        }}
+      >
+        <IconButton
+          onClick={decrease}
+          disabled={quantity <= 1}
+          size="small"
+          sx={{
+            borderRadius: 0,
+            color: "#000000",
+            width: 40,
+            height: "100%",
+          }}
+        >
+          <Remove fontSize="small" />
+        </IconButton>
+
+        <Typography
+          variant="body2"
+          sx={{
+            width: 48,
+            textAlign: "center",
+            fontWeight: 700,
+            fontSize: "0.9rem",
+          }}
+        >
+          {quantity}
+        </Typography>
+
+        <IconButton
+          onClick={increase}
+          disabled={quantity >= max}
+          size="small"
+          sx={{
+            borderRadius: 0,
+            color: "#000000",
+            width: 40,
+            height: "100%",
+          }}
+        >
+          <Add fontSize="small" />
+        </IconButton>
+      </Box>
     </Box>
   );
 }

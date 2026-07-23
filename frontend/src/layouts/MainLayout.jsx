@@ -11,6 +11,7 @@ function MainLayout() {
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
+        backgroundColor: "#ffffff",
       }}
     >
       <Navbar />
@@ -19,7 +20,8 @@ function MainLayout() {
         component="main"
         sx={{
           flex: 1,
-          py: 4,
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         <Outlet />

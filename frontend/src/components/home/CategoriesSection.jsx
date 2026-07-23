@@ -1,76 +1,89 @@
-import { Container, Grid, Typography } from "@mui/material";
-
-import {
-  PhoneIphone,
-  Laptop,
-  Checkroom,
-  SportsEsports,
-  Watch,
-  MenuBook,
-  Diamond,
-  Headphones,
-} from "@mui/icons-material";
-
+import { Container, Grid, Typography, Box } from "@mui/material";
 import CategoryCard from "./CategoryCard";
 
 const categories = [
   {
     name: "Electronics",
-    icon: <Laptop fontSize="inherit" />,
+    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800&auto=format&fit=crop",
   },
   {
     name: "Mobiles",
-    icon: <PhoneIphone fontSize="inherit" />,
+    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=800&auto=format&fit=crop",
   },
   {
     name: "Fashion",
-    icon: <Checkroom fontSize="inherit" />,
+    image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=800&auto=format&fit=crop",
   },
   {
     name: "Gaming",
-    icon: <SportsEsports fontSize="inherit" />,
+    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop",
   },
   {
     name: "Watches",
-    icon: <Watch fontSize="inherit" />,
+    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop",
   },
   {
     name: "Books",
-    icon: <MenuBook fontSize="inherit" />,
+    image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=800&auto=format&fit=crop",
   },
   {
     name: "Jewellery",
-    icon: <Diamond fontSize="inherit" />,
+    image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=800&auto=format&fit=crop",
   },
   {
     name: "Accessories",
-    icon: <Headphones fontSize="inherit" />,
+    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=800&auto=format&fit=crop",
   },
 ];
 
 function CategoriesSection() {
   return (
     <Container
-      maxWidth="lg"
+      maxWidth="xl"
       sx={{
-        mt: 8,
+        px: { xs: 3, md: 8 },
+        mb: { xs: 10, md: 14 },
       }}
     >
-      <Typography variant="h4" fontWeight="bold" mb={4}>
-        Shop by Category
-      </Typography>
+      <Box sx={{ textCenter: "center", mb: 6 }}>
+        <Typography
+          variant="caption"
+          sx={{
+            display: "block",
+            fontWeight: 700,
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
+            color: "#666666",
+            mb: 1,
+            fontSize: "0.75rem",
+          }}
+        >
+          Curated Selections
+        </Typography>
 
-      <Grid container spacing={3}>
+        <Typography
+          variant="h3"
+          sx={{
+            fontWeight: 800,
+            letterSpacing: "-0.02em",
+            textTransform: "uppercase",
+            fontSize: { xs: "1.75rem", md: "2.25rem" },
+          }}
+        >
+          Shop By Category
+        </Typography>
+      </Box>
+
+      <Grid container spacing={2}>
         {categories.map((category) => (
           <Grid
             key={category.name}
-            size={{
-              xs: 6,
-              sm: 4,
-              md: 3,
-            }}
+            item
+            xs={6}
+            sm={6}
+            md={3}
           >
-            <CategoryCard name={category.name} icon={category.icon} />
+            <CategoryCard name={category.name} image={category.image} />
           </Grid>
         ))}
       </Grid>

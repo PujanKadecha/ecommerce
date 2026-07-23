@@ -5,8 +5,9 @@ import {
   Typography,
   Link,
   Divider,
+  TextField,
+  Button,
 } from "@mui/material";
-
 import { Link as RouterLink } from "react-router-dom";
 
 function Footer() {
@@ -14,96 +15,182 @@ function Footer() {
     <Box
       component="footer"
       sx={{
-        bgcolor: "#1e293b",
-        color: "white",
+        backgroundColor: "#000000",
+        color: "#ffffff",
         mt: "auto",
-        pt: 6,
-        pb: 3,
+        pt: { xs: 8, md: 10 },
+        pb: 4,
+        borderTop: "1px solid #1a1a1a",
       }}
     >
-      <Container maxWidth="lg">
-        <Grid container spacing={4}>
-          {/* Company */}
-
-          <Grid size={{ xs: 12, md: 4 }}>
+      <Container maxWidth="xl" sx={{ px: { xs: 3, md: 6 } }}>
+        <Grid container spacing={{ xs: 5, md: 6 }}>
+          {/* Brand Info */}
+          <Grid item xs={12} md={4}>
             <Typography
-              variant="h5"
-              fontWeight="bold"
-              gutterBottom
+              variant="h6"
+              sx={{
+                fontWeight: 800,
+                letterSpacing: "0.15em",
+                textTransform: "uppercase",
+                mb: 2,
+              }}
             >
               E-Commerce
             </Typography>
-
             <Typography
               variant="body2"
-              color="grey.400"
+              sx={{
+                color: "#999999",
+                lineHeight: 1.8,
+                maxWidth: 320,
+                fontSize: "0.85rem",
+              }}
             >
-              Your one-stop destination for quality
-              products at affordable prices.
+              A modern, minimalist general-purpose e-commerce destination
+              curated for high-quality everyday essentials and premium products.
             </Typography>
           </Grid>
 
           {/* Quick Links */}
-
-          <Grid size={{ xs: 12, md: 4 }}>
+          <Grid item xs={6} md={2}>
             <Typography
-              variant="h6"
-              gutterBottom
+              variant="caption"
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                display: "block",
+                mb: 2.5,
+                color: "#ffffff",
+              }}
             >
-              Quick Links
+              Navigation
             </Typography>
-
-            <Link component={RouterLink} to="/" underline="hover" color="inherit" display="block">
-              Home
-            </Link>
-
-            <Link component={RouterLink} to="/products" underline="hover" color="inherit" display="block">
-              Products
-            </Link>
-
-            <Link component={RouterLink} to="/categories" underline="hover" color="inherit" display="block">
-              Categories
-            </Link>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
+              <Link
+                component={RouterLink}
+                to="/"
+                sx={{
+                  color: "#aaaaaa",
+                  fontSize: "0.85rem",
+                  textDecoration: "none",
+                  "&:hover": { color: "#ffffff" },
+                }}
+              >
+                Home
+              </Link>
+              <Link
+                component={RouterLink}
+                to="/products"
+                sx={{
+                  color: "#aaaaaa",
+                  fontSize: "0.85rem",
+                  textDecoration: "none",
+                  "&:hover": { color: "#ffffff" },
+                }}
+              >
+                Shop All
+              </Link>
+              <Link
+                component={RouterLink}
+                to="/categories"
+                sx={{
+                  color: "#aaaaaa",
+                  fontSize: "0.85rem",
+                  textDecoration: "none",
+                  "&:hover": { color: "#ffffff" },
+                }}
+              >
+                Categories
+              </Link>
+            </Box>
           </Grid>
 
-          {/* Contact */}
-
-          <Grid size={{ xs: 12, md: 4 }}>
+          {/* Support
+          <Grid item xs={6} md={2}>
             <Typography
-              variant="h6"
-              gutterBottom
+              variant="caption"
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                display: "block",
+                mb: 2.5,
+                color: "#ffffff",
+              }}
             >
-              Contact
+              Customer Care
             </Typography>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
+              <Link
+                href="#"
+                sx={{
+                  color: "#aaaaaa",
+                  fontSize: "0.85rem",
+                  textDecoration: "none",
+                  "&:hover": { color: "#ffffff" },
+                }}
+              >
+                Shipping Policy
+              </Link>
+              <Link
+                href="#"
+                sx={{
+                  color: "#aaaaaa",
+                  fontSize: "0.85rem",
+                  textDecoration: "none",
+                  "&:hover": { color: "#ffffff" },
+                }}
+              >
+                Returns & Exchanges
+              </Link>
+              <Link
+                href="#"
+                sx={{
+                  color: "#aaaaaa",
+                  fontSize: "0.85rem",
+                  textDecoration: "none",
+                  "&:hover": { color: "#ffffff" },
+                }}
+              >
+                Terms of Service
+              </Link>
+            </Box>
+          </Grid> */}
 
-            <Typography variant="body2">
-              support@ecommerce.com
-            </Typography>
-
-            <Typography variant="body2">
-              +91 9876543210
-            </Typography>
-
-            <Typography variant="body2">
-              Rajkot, Gujarat
-            </Typography>
-          </Grid>
+          
         </Grid>
 
         <Divider
           sx={{
-            my: 4,
-            borderColor: "grey.700",
+            my: 6,
+            borderColor: "#1a1a1a",
           }}
         />
 
-        <Typography
-          textAlign="center"
-          variant="body2"
-          color="grey.500"
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: 2,
+          }}
         >
-          © {new Date().getFullYear()} E-Commerce. All Rights Reserved.
-        </Typography>
+          <Typography
+            variant="caption"
+            sx={{ color: "#666666", fontSize: "0.75rem" }}
+          >
+            © {new Date().getFullYear()} E-commerce STORE. ALL RIGHTS RESERVED.
+          </Typography>
+          <Typography
+            variant="caption"
+            sx={{ color: "#666666", fontSize: "0.75rem" }}
+          >
+            CRAFTED WITH PRECISION
+          </Typography>
+        </Box>
       </Container>
     </Box>
   );

@@ -1,17 +1,15 @@
-import { Container } from "@mui/material";
+import { Box } from "@mui/material";
 import HeroBanner from "../../components/home/HeroBanner";
 import CategoriesSection from "../../components/home/CategoriesSection";
 import FeaturedProducts from "../../components/home/FeaturedProducts";
 
 function HomePage() {
   return (
-    <Container maxWidth="xl" sx={{ mt: 4 }}>
+    <Box sx={{ width: "100%" }}>
       <HeroBanner />
-
       <CategoriesSection />
-
       <FeaturedProducts />
-    </Container>
+    </Box>
   );
 }
 

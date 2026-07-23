@@ -1,27 +1,41 @@
-import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Box, Typography, Button } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 
 function ProductCard({ product }) {
+  const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
+
   const imageUrl =
-    product.images?.[0]?.url || "https://placehold.co/400x600?text=No+Image";
+    product.images?.[0]?.url ||
+    "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop";
 
   return (
-    <Card
-      component={Link}
-      to={`/products/${product._id}`}
+    <Box
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       sx={{
-        textDecoration: "none",
-        color: "inherit",
         display: "flex",
         flexDirection: "column",
-        transition: "opacity 0.3s ease",
-        "&:hover": { opacity: 0.8 },
+        height: "100%",
       }}
     >
-      <Box sx={{ position: "relative", paddingTop: "133%" }}>
-        <CardMedia
+      <Box
+        component={Link}
+        to={`/products/${product._id}`}
+        className="img-zoom-container"
+        sx={{
+          position: "relative",
+          width: "100%",
+          paddingTop: "133%", // 3:4 Aspect Ratio
+          backgroundColor: "#f5f5f5",
+          overflow: "hidden",
+          display: "block",
+        }}
+      >
+        <Box
           component="img"
-          image={imageUrl}
+          src={imageUrl}
           alt={product.name}
           sx={{
             position: "absolute",
@@ -32,18 +46,104 @@ function ProductCard({ product }) {
             objectFit: "cover",
           }}
         />
+
+        {/* Hover Quick Action Button Bar */}
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            p: 1.5,
+            transform: isHovered ? "translateY(0)" : "translateY(100%)",
+            transition: "transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+            backgroundColor: "rgba(255, 255, 255, 0.95)",
+            backdropFilter: "blur(4px)",
+          }}
+        >
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              navigate(`/products/${product._id}`);
+            }}
+            variant="contained"
+            fullWidth
+            size="small"
+            sx={{
+              backgroundColor: "#000000",
+              color: "#ffffff",
+              fontSize: "0.7rem",
+              fontWeight: 700,
+              letterSpacing: "0.1em",
+              py: 1,
+              "&:hover": {
+                backgroundColor: "#222222",
+              },
+            }}
+          >
+            Quick View
+          </Button>
+        </Box>
       </Box>
-      <CardContent
-        sx={{ p: 2, paddingBottom: "16px !important", textAlign: "center" }}
+
+      {/* Product Details */}
+      <Box
+        component={Link}
+        to={`/products/${product._id}`}
+        sx={{
+          pt: 2,
+          pb: 1,
+          textDecoration: "none",
+          color: "inherit",
+          display: "flex",
+          flexDirection: "column",
+          gap: 0.5,
+        }}
       >
-        <Typography variant="body1" fontWeight="600" noWrap>
+        {product.category && (
+          <Typography
+            variant="caption"
+            sx={{
+              fontSize: "0.68rem",
+              fontWeight: 600,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: "#888888",
+            }}
+          >
+            {product.category}
+          </Typography>
+        )}
+
+        <Typography
+          variant="body2"
+          sx={{
+            fontWeight: 600,
+            fontSize: "0.9rem",
+            color: "#111111",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            letterSpacing: "-0.01em",
+          }}
+        >
           {product.name}
         </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-          ₹{product.price}
+
+        <Typography
+          variant="body2"
+          sx={{
+            fontWeight: 700,
+            fontSize: "0.9rem",
+            color: "#000000",
+            mt: 0.25,
+          }}
+        >
+          ₹{product.price?.toLocaleString() || product.price}
         </Typography>
-      </CardContent>
-    </Card>
+      </Box>
+    </Box>
   );
 }
 
