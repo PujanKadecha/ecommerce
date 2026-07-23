@@ -44,8 +44,6 @@ function ProductDetailsPage() {
           }}
         >
           <ProductGallery images={product.images} />
-          <ProductTabs product={product} />
-          <RelatedProducts product={product} />
         </Grid>
 
         <Grid
@@ -57,6 +55,9 @@ function ProductDetailsPage() {
           <ProductInfo product={product} />
         </Grid>
       </Grid>
+
+      <ProductTabs product={product} />
+      <RelatedProducts product={product} />
     </Container>
   );
 }

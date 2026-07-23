@@ -7,6 +7,8 @@ import {
   Divider,
 } from "@mui/material";
 
+import { Link as RouterLink } from "react-router-dom";
+
 function Footer() {
   return (
     <Box
@@ -51,15 +53,15 @@ function Footer() {
               Quick Links
             </Typography>
 
-            <Link href="/" underline="hover" color="inherit" display="block">
+            <Link component={RouterLink} to="/" underline="hover" color="inherit" display="block">
               Home
             </Link>
 
-            <Link href="/products" underline="hover" color="inherit" display="block">
+            <Link component={RouterLink} to="/products" underline="hover" color="inherit" display="block">
               Products
             </Link>
 
-            <Link href="/categories" underline="hover" color="inherit" display="block">
+            <Link component={RouterLink} to="/categories" underline="hover" color="inherit" display="block">
               Categories
             </Link>
           </Grid>

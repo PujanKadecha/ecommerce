@@ -15,10 +15,14 @@ function RelatedProducts({ product }) {
       try {
         const res = await api.get("/products");
 
+        const prodCat = typeof product.category === "object" ? product.category?._id : product.category;
+
         const related = res.data.data
           .filter(
-            (item) =>
-              item.category === product.category && item._id !== product._id,
+            (item) => {
+              const itemCat = typeof item.category === "object" ? item.category?._id : item.category;
+              return itemCat === prodCat && item._id !== product._id;
+            },
           )
           .slice(0, 4);
 

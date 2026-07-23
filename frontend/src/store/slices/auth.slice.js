@@ -58,11 +58,11 @@ export const fetchCurrentUser = createAsyncThunk(
 export const logout = createAsyncThunk(
   "auth/logout",
 
-  async (_, thunkAPI) => {
+  async (refreshToken, thunkAPI) => {
     try {
-      await logoutUser();
+      await logoutUser(refreshToken);
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(error.response?.data);
     }
   },
 );

@@ -30,12 +30,12 @@ export const resetPassword = (token, password) => {
   });
 };
 
-export const logoutUser = () => {
-  return api.post("/auth/logout");
+export const logoutUser = (refreshToken) => {
+  return api.post("/auth/logout", { refreshToken });
 };
 
 export const getCurrentUser = () => {
-  return api.get("/auth/me");
+  return api.get("/users/me");
 };
 
 export const enableTwoFactor = () => {
