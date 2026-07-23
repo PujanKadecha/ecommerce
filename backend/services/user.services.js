@@ -2,7 +2,7 @@ const User = require("../models/user.model");
 const { hashPassword, comparePassword } = require("../utils/password");
 const { uploadImage, deleteImage } = require("../utils/cloudinary");
 
-const getCurruntUser = async (user) => {
+const getCurrentUser = async (user) => {
   return user;
 };
 
@@ -75,7 +75,7 @@ const uploadAvatar = async (userId, file) => {
     throw error;
   }
 
-  if (user.avatar.publicId) {
+  if (user.avatar?.publicId) {
     await deleteImage(user.avatar.publicId);
   }
 
@@ -95,10 +95,9 @@ const deleteAccount = async (userId) => {
   const user = await User.findById(userId);
 
   if (!user) {
-    res.status(401).json({
-      success: false,
-      message: "User Not Found",
-    });
+    const error = new Error("User not found");
+    error.statusCode = 404;
+    throw error;
   }
 
   if (user.avatar?.publicId) {
@@ -110,7 +109,7 @@ const deleteAccount = async (userId) => {
 };
 
 module.exports = {
-  getCurruntUser,
+  getCurrentUser,
   updateProfile,
   changePassword,
   uploadAvatar,

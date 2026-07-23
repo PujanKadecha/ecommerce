@@ -37,8 +37,8 @@ router.patch(
   "/:id",
   authenticate,
   authorize("customer"),
-  validate(updateAddressSchema),
   validate(addressIdSchema, "params"),
+  validate(updateAddressSchema),
   addressController.updateAddress,
 );
 

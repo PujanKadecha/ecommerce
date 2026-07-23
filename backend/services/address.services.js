@@ -28,7 +28,7 @@ const addAddress = async (userId, addressData) => {
 };
 
 const getAddress = async (userId) => {
-  const address = await Address.findOne({ user: userId }).sort({
+  const address = await Address.find({ user: userId }).sort({
     isDefault: -1,
     createdAt: -1,
   });
@@ -44,7 +44,7 @@ const getAddressById = async (userId, addressId) => {
 
   if (!address) {
     const error = new Error("Address Not Found");
-    error.statesCode = 404;
+    error.statusCode = 404;
     throw error;
   }
 

@@ -94,11 +94,11 @@ const getCategoryById = async (categoryId) => {
   return category;
 };
 
-const updateCategoty = async (categoryId, categoryData) => {
+const updateCategory = async (categoryId, categoryData) => {
   const category = await Category.findById(categoryId);
 
   if (!category) {
-    const error = new error("Category not found");
+    const error = new Error("Category not found");
     error.statusCode = 404;
     throw error;
   }
@@ -177,7 +177,7 @@ const deleteCategory = async (categoryId) => {
     error.statusCode = 400;
     throw error;
   }
-  if (category.image.publicId) {
+  if (category.image?.publicId) {
     await deleteImage(category.image.publicId);
   }
   await Category.findByIdAndDelete(categoryId);
@@ -196,7 +196,7 @@ const uploadCategoryImage = async (categoryId, file) => {
     error.statusCode = 400;
     throw error;
   }
-  if (category.image.publicId) {
+  if (category.image?.publicId) {
     await deleteImage(category.image.publicId);
   }
   const uploadedImage = await uploadImage(file.buffer, "categories");
@@ -217,7 +217,7 @@ const deleteCategoryImage = async (categoryId) => {
     throw error;
   }
 
-  if (!category.image.publicId) {
+  if (!category.image?.publicId) {
     const error = new Error("Category does not have an image");
     error.statusCode = 400;
     throw error;
@@ -237,7 +237,7 @@ module.exports = {
   createCategory,
   getAllCategory,
   getCategoryById,
-  updateCategoty,
+  updateCategory,
   deleteCategory,
   uploadCategoryImage,
   deleteCategoryImage

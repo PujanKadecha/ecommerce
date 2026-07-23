@@ -46,9 +46,9 @@ const getCategoryById = async (req, res, next) => {
   }
 };
 
-const updateCategoty = async (req, res, next) => {
+const updateCategory = async (req, res, next) => {
   try {
-    const category = await categoryService.updateCategoty(
+    const category = await categoryService.updateCategory(
       req.params.id,
       req.body,
     );
@@ -69,7 +69,7 @@ const deleteCategory = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: "Categoty Deleted Successfully",
+      message: "Category Deleted Successfully",
       data: category,
     });
   } catch (error) {
@@ -100,7 +100,7 @@ const deleteCategoryImage = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: "Categoty Image Deleted",
+      message: "Category Image Deleted",
       data: category,
     });
   } catch (error) {
@@ -112,7 +112,7 @@ module.exports = {
   createCategory,
   getAllCategory,
   getCategoryById,
-  updateCategoty,
+  updateCategory,
   deleteCategory,
   uploadCategoryImage,
   deleteCategoryImage

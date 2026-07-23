@@ -2,7 +2,7 @@ const userService = require("../services/user.services");
 
 const getCurrentUser = async (req, res, next) => {
   try {
-    const user = await userService.getCurruntUser(req.user);
+    const user = await userService.getCurrentUser(req.user);
 
     res.status(200).json({
       success: true,

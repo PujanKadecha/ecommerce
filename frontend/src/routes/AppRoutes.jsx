@@ -3,6 +3,7 @@ import ProtectedRoute from "../components/common/ProtectedRoute";
 import GuestRoute from "../components/common/GuestRoute";
 import MainLayout from "../layouts/MainLayout";
 import AuthLayout from "../layouts/AuthLayout";
+import ProductDetailsPage from "../pages/products/ProductDetailsPage";
 
 import HomePage from "../pages/home/HomePage";
 import LoginPage from "../pages/auth/LoginPage";
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: "categories",
         element: <CategoryPage />,
+      },
+      {
+        path: "products/:id",
+        element: <ProductDetailsPage />,
       },
     ],
   },

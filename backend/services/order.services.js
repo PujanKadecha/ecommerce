@@ -106,7 +106,7 @@ const placeOrder = async (userId, orderData) => {
 };
 
 const getOrders = async (userId) => {
-  const orders = await Order.findOne({ user: userId }).sort({
+  const orders = await Order.find({ user: userId }).sort({
     createdAt: -1,
   });
 
@@ -209,7 +209,7 @@ const getAdminOrderById = async (orderId) => {
 
   if (!order) {
     const error = new Error("Order Not Found");
-    error.statusCode(404);
+    error.statusCode = 404;
     throw error;
   }
 

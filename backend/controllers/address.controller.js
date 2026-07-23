@@ -81,16 +81,20 @@ const deleteAddress = async (req, res, next) => {
 };
 
 const setDefaultAddress = async (req, res, next) => {
-  const address = await addressServices.setDefaultAddress(
-    req.user._id,
-    req.params.id,
-  );
+  try {
+    const address = await addressServices.setDefaultAddress(
+      req.user._id,
+      req.params.id,
+    );
 
-  res.status(200).json({
-    success: true,
-    message: "Default Address set Successfully",
-    data: address,
-  });
+    res.status(200).json({
+      success: true,
+      message: "Default Address set Successfully",
+      data: address,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = {

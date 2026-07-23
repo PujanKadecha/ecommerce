@@ -33,7 +33,7 @@ router.patch(
   authorize("admin"),
   validate(categoryIdSchema, "params"),
   validate(updateCategorySchema),
-  categoryController.updateCategoty,
+  categoryController.updateCategory,
 );
 
 router.delete(

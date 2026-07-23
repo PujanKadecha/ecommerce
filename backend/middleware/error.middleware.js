@@ -10,6 +10,20 @@ const errorHandler = (err, req, res, next) => {
     }
   }
 
+  if (err.name === "JsonWebTokenError") {
+    return res.status(401).json({
+      success: false,
+      message: "Invalid token",
+    });
+  }
+
+  if (err.name === "TokenExpiredError") {
+    return res.status(401).json({
+      success: false,
+      message: "Token expired",
+    });
+  }
+
   if (err.message === "Only JPG, JPEG, PNG and WEBP images are allowed") {
     return res.status(400).json({
       success: false,

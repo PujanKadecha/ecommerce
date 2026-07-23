@@ -45,7 +45,7 @@ const handleWebhook = async (req, res, next) => {
       process.env.STRIPE_WEBHOOK_SECRET,
     );
 
-    await paymentService.handleWebhook(event);
+    await paymentServices.handleWebhook(event);
     res.json({
       received: true,
     });
