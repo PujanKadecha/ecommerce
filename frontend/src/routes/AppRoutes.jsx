@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, ScrollRestoration, Outlet } from "react-router-dom";
 import ProtectedRoute from "../components/common/ProtectedRoute";
 import GuestRoute from "../components/common/GuestRoute";
 import MainLayout from "../layouts/MainLayout";
@@ -27,11 +27,23 @@ import AdminUsersPage from "../pages/admin/users/AdminUsersPage";
 import AdminProductsPage from "../pages/admin/products/AdminProductsPage";
 import AdminCategoriesPage from "../pages/admin/categories/AdminCategoriesPage";
 
+function RootLayout() {
+  return (
+    <>
+      <ScrollRestoration />
+      <Outlet />
+    </>
+  );
+}
+
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <MainLayout />,
+    element: <RootLayout />,
     children: [
+      {
+        path: "/",
+        element: <MainLayout />,
+        children: [
       {
         index: true,
         element: <HomePage />,
@@ -129,10 +141,12 @@ const router = createBrowserRouter([
         element: <AdminCategoriesPage />,
       },
     ],
-  },
-  {
-    path: "*",
-    element: <NotFoundPage />,
+      },
+      {
+        path: "*",
+        element: <NotFoundPage />,
+      },
+    ],
   },
 ]);
 
