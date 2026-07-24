@@ -62,9 +62,7 @@ const verifyPayment = async (userId, paymentIntentId) => {
     error.statusCode = 400;
     throw error;
   }
-  const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
-  console.log(paymentIntent.status);
-  console.log(paymentIntent);
+ 
   if (paymentIntent.status !== "succeeded") {
     const error = new Error("Payment has not been completed");
     error.statusCode = 400;

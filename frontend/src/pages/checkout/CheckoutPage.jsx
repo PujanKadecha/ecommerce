@@ -287,11 +287,11 @@ function CheckoutPage() {
                       control={<Radio sx={{ color: "#000000", "&.Mui-checked": { color: "#000000" } }} />}
                       label="Cash On Delivery (COD)"
                     />
-                    <FormControlLabel
+                    {/* <FormControlLabel
                       value="ONLINE"
                       control={<Radio sx={{ color: "#000000", "&.Mui-checked": { color: "#000000" } }} />}
                       label="Online Payment (Credit / Debit Card / UPI)"
-                    />
+                    /> */}
                   </RadioGroup>
                 </FormControl>
               </Box>
