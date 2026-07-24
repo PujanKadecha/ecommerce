@@ -10,7 +10,7 @@ function HeroBanner() {
         minHeight: { xs: "75vh", md: "85vh" },
         display: "flex",
         alignItems: "center",
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.55)), url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWxWyc8N7enL-KaKdbJxxq2eVUt8Q1WC2K5IZkxGmqfZUfMGH7SofHSiQ&s')`,
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.65)), url('https://images.unsplash.com/photo-1498049860654-af1a5c566876?q=80&w=1920&auto=format&fit=crop')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         color: "#ffffff",
@@ -33,11 +33,11 @@ function HeroBanner() {
               letterSpacing: "0.25em",
               textTransform: "uppercase",
               mb: 2,
-              color: "#e5e5e5",
+              color: "#38bdf8",
               fontSize: { xs: "0.75rem", md: "0.85rem" },
             }}
           >
-            Spring / Summer 2026 Collection
+            Premium Tech & Electronics 2026
           </Typography>
 
           <Typography
@@ -51,7 +51,7 @@ function HeroBanner() {
               mb: 3,
             }}
           >
-            Elevate Your Everyday Essentials.
+            Next-Gen Tech & Electronics for Your Everyday.
           </Typography>
 
           <Typography
@@ -61,11 +61,11 @@ function HeroBanner() {
               color: "rgba(255, 255, 255, 0.85)",
               lineHeight: 1.6,
               mb: 4,
-              maxWidth: 520,
+              maxWidth: 540,
               fontWeight: 300,
             }}
           >
-            Discover our meticulously curated collection of premium electronics, lifestyle accessories, and modern design goods.
+            Discover state-of-the-art gadgets, high-performance audio, premium computing accessories, and smart devices built for seamless modern living.
           </Typography>
 
           <Button
@@ -88,7 +88,7 @@ function HeroBanner() {
               },
             }}
           >
-            Explore Shop
+            Explore Tech Products
           </Button>
         </Box>
       </Container>

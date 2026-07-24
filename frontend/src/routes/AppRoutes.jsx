@@ -20,6 +20,13 @@ import ForgotPasswordPage from "../pages/auth/ForgotPasswordPage";
 import ResetPasswordPage from "../pages/auth/ResetPasswordPage";
 import NotFoundPage from "../pages/error/NotFoundPage";
 
+import AdminRoute from "../components/common/AdminRoute";
+import AdminLayout from "../layouts/AdminLayout";
+import AdminDashboard from "../pages/admin/AdminDashboard";
+import AdminUsersPage from "../pages/admin/users/AdminUsersPage";
+import AdminProductsPage from "../pages/admin/products/AdminProductsPage";
+import AdminCategoriesPage from "../pages/admin/categories/AdminCategoriesPage";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -94,6 +101,32 @@ const router = createBrowserRouter([
       {
         path: "reset-password/:token",
         element: <ResetPasswordPage />,
+      },
+    ],
+  },
+  {
+    path: "/admin",
+    element: (
+      <AdminRoute>
+        <AdminLayout />
+      </AdminRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <AdminDashboard />,
+      },
+      {
+        path: "users",
+        element: <AdminUsersPage />,
+      },
+      {
+        path: "products",
+        element: <AdminProductsPage />,
+      },
+      {
+        path: "categories",
+        element: <AdminCategoriesPage />,
       },
     ],
   },

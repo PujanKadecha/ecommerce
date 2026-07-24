@@ -1,5 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getProducts, getProductById } from "../../api/product.api";
+import {
+  getProducts,
+  getProductById,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+} from "../../api/product.api";
 
 export const fetchProducts = createAsyncThunk(
   "product/fetchProducts",
@@ -24,6 +30,48 @@ export const fetchProductById = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || "Failed to fetch product details"
+      );
+    }
+  }
+);
+
+export const addProduct = createAsyncThunk(
+  "product/addProduct",
+  async (productData, thunkAPI) => {
+    try {
+      const response = await createProduct(productData);
+      return response.data?.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Failed to create product"
+      );
+    }
+  }
+);
+
+export const editProduct = createAsyncThunk(
+  "product/editProduct",
+  async ({ id, data }, thunkAPI) => {
+    try {
+      const response = await updateProduct(id, data);
+      return response.data?.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Failed to update product"
+      );
+    }
+  }
+);
+
+export const removeProduct = createAsyncThunk(
+  "product/removeProduct",
+  async (id, thunkAPI) => {
+    try {
+      await deleteProduct(id);
+      return id;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Failed to delete product"
       );
     }
   }
@@ -75,6 +123,25 @@ const productSlice = createSlice({
       .addCase(fetchProductById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      // Admin Actions (simplified state updates, typically you might refetch or handle array modifications)
+      .addCase(addProduct.fulfilled, (state, action) => {
+        if (Array.isArray(state.products)) {
+          state.products.push(action.payload);
+        }
+      })
+      .addCase(editProduct.fulfilled, (state, action) => {
+        if (Array.isArray(state.products)) {
+          const index = state.products.findIndex(p => p._id === action.payload._id);
+          if (index !== -1) {
+            state.products[index] = action.payload;
+          }
+        }
+      })
+      .addCase(removeProduct.fulfilled, (state, action) => {
+        if (Array.isArray(state.products)) {
+          state.products = state.products.filter(p => p._id !== action.payload);
+        }
       });
   },
 });

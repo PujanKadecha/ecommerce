@@ -1,5 +1,9 @@
 import axios from "axios";
-import { getAccessToken, setAccessToken, removeAccessToken } from "../utils/token";
+import {
+  getAccessToken,
+  setAccessToken,
+  removeAccessToken,
+} from "../utils/token";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -11,7 +15,6 @@ const api = axios.create({
   withCredentials: true,
 });
 
-// Attach access token to every request
 api.interceptors.request.use(
   (config) => {
     const token = getAccessToken();
@@ -23,7 +26,6 @@ api.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
-// Track whether we are already refreshing to avoid infinite loops
 let isRefreshing = false;
 let failedQueue = [];
 
@@ -43,10 +45,7 @@ const getRefreshToken = () => {
     const persistAuth = localStorage.getItem("persist:auth");
     if (persistAuth) {
       const auth = JSON.parse(persistAuth);
-      // refreshToken is stored as a plain string in persist:auth
       const user = auth.user ? JSON.parse(auth.user) : null;
-      // The refresh token is stored in the user's refreshTokens array on the server,
-      // not locally. We store it separately at login time.
       return localStorage.getItem("refreshToken");
     }
   } catch (_) {}
@@ -58,16 +57,14 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // Only attempt refresh on 401, and only once per request (_retry flag)
     if (
       error.response &&
       error.response.status === 401 &&
       !originalRequest._retry &&
-      !originalRequest.url?.includes("/auth/refresh-token") &&
+      !originalRequest.url?.includes("/auth/refresh") &&
       !originalRequest.url?.includes("/auth/login")
     ) {
       if (isRefreshing) {
-        // Queue the request until the refresh finishes
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         })
@@ -84,7 +81,6 @@ api.interceptors.response.use(
       const refreshToken = getRefreshToken();
 
       if (!refreshToken) {
-        // No refresh token available — clear and redirect to login
         removeAccessToken();
         isRefreshing = false;
         return Promise.reject(error);
@@ -92,19 +88,18 @@ api.interceptors.response.use(
 
       try {
         const response = await axios.post(
-          `${BASE_URL}/auth/refresh-token`,
+          `${BASE_URL}/auth/refresh`,
           { refreshToken },
-          { withCredentials: true }
+          { withCredentials: true },
         );
 
         const newAccessToken = response.data?.data?.accessToken;
 
-        if (!newAccessToken) throw new Error("No access token in refresh response");
+        if (!newAccessToken)
+          throw new Error("No access token in refresh response");
 
-        // Save the new token
         setAccessToken(newAccessToken);
 
-        // Update the Authorization header for the failed request
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         api.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
 
@@ -114,7 +109,7 @@ api.interceptors.response.use(
       } catch (refreshError) {
         processQueue(refreshError, null);
         removeAccessToken();
-        // Dispatch a custom event so React can redirect to login
+
         window.dispatchEvent(new CustomEvent("auth:expired"));
         return Promise.reject(refreshError);
       } finally {
@@ -123,7 +118,7 @@ api.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;

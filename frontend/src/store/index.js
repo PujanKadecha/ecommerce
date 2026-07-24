@@ -21,6 +21,7 @@ import orderReducer from "./slices/order.slice";
 import addressReducer from "./slices/address.slice";
 import reviewReducer from "./slices/review.slice";
 import paymentReducer from "./slices/payment.slice";
+import adminReducer from "./slices/admin.slice";
 
 const createNoopStorage = () => ({
   getItem() {
@@ -63,6 +64,7 @@ const store = configureStore({
     address: addressReducer,
     review: reviewReducer,
     payment: paymentReducer,
+    admin: adminReducer,
   },
 
   middleware: (getDefaultMiddleware) =>
