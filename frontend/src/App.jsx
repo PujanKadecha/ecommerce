@@ -19,7 +19,7 @@ function App() {
     const handleAuthExpired = () => {
       dispatch(logoutLocal());
       toast.error("Your session has expired. Please log in again.");
-      // Small delay so toast is visible before redirect
+      
       setTimeout(() => {
         window.location.href = "/auth/login";
       }, 1500);

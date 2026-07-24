@@ -112,7 +112,7 @@ function ProductCard({ product }) {
               color: "#888888",
             }}
           >
-            {product.category}
+            {typeof product.category === 'object' ? product.category?.name : product.category}
           </Typography>
         )}
 

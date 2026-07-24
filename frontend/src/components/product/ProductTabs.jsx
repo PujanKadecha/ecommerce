@@ -82,7 +82,7 @@ function ProductTabs({ product }) {
               Category:
             </Typography>
             <Typography variant="body2" sx={{ fontWeight: 700 }}>
-              {product.category || "N/A"}
+              {(typeof product.category === 'object' ? product.category?.name : product.category) || "N/A"}
             </Typography>
           </Box>
           <Divider sx={{ borderColor: "#f0f0f0" }} />

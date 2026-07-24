@@ -170,7 +170,7 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
       })
       .addCase(logout.rejected, (state) => {
-        // Still clear local state even if server logout fails
+        
         state.user = null;
         state.accessToken = null;
         state.isAuthenticated = false;

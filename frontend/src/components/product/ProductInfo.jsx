@@ -49,7 +49,7 @@ function ProductInfo({ product }) {
               fontSize: "0.75rem",
             }}
           >
-            {product.category}
+            {typeof product.category === 'object' ? product.category?.name : product.category}
           </Typography>
         )}
         {product.category && product.brand && (

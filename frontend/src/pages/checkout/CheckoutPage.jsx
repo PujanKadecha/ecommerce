@@ -69,7 +69,7 @@ function CheckoutPage() {
     setErrorMessage("");
 
     try {
-      // 1. Create/Save address to backend
+      
       const addressRes = await import("../../api/address.api").then((m) =>
         m.addAddress({
           fullName: address.fullName.trim(),
@@ -87,10 +87,10 @@ function CheckoutPage() {
         throw new Error("Failed to save shipping address.");
       }
 
-      // 2. Map payment method to lowercase ("cod" or "stripe")
+      
       const mappedPayment = paymentMethod === "COD" ? "cod" : "stripe";
 
-      // 3. Dispatch order creation with addressId and paymentMethod
+      
       const result = await dispatch(createOrder({ addressId, paymentMethod: mappedPayment }));
 
       if (createOrder.fulfilled.match(result)) {

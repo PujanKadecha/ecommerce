@@ -1,4 +1,7 @@
 const User = require("../models/user.model");
+const Product = require("../models/product.model");
+const Category = require("../models/category.model");
+const Order = require("../models/order.model");
 const { deleteImage } = require("../utils/cloudinary");
 
 const getAllUsers = async (query) => {
@@ -149,8 +152,15 @@ const getDashboardStatus = async () => {
     },
   });
 
+  const totalProducts = await Product.countDocuments();
+  const totalCategories = await Category.countDocuments();
+  const totalOrders = await Order.countDocuments();
+
   return {
     totalUsers,
+    totalProducts,
+    totalCategories,
+    totalOrders,
     customers,
     sellers,
     admins,

@@ -79,6 +79,7 @@ const getAllProducts = async (query) => {
   }
 
   const products = await Product.find(filter)
+    .populate("category", "name slug")
     .populate("createdBy", "firstname lastname email")
     .sort({
       [sortField]: sortOrder,
@@ -103,7 +104,9 @@ const getProductById = async (productId) => {
   const product = await Product.findOne({
     _id: productId,
     status: "active",
-  }).populate("createdBy", "firstName lastName email");
+  })
+    .populate("category", "name slug")
+    .populate("createdBy", "firstName lastName email");
 
   if (!product) {
     const error = new Error("Product not found");

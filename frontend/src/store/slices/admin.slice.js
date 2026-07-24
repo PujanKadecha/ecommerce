@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../api/axios";
 
-// Fetch Dashboard Stats
+
 export const fetchDashboardStats = createAsyncThunk(
   "admin/fetchDashboardStats",
   async (_, { rejectWithValue }) => {
@@ -16,7 +16,7 @@ export const fetchDashboardStats = createAsyncThunk(
   }
 );
 
-// Fetch All Users
+
 export const fetchAllUsers = createAsyncThunk(
   "admin/fetchAllUsers",
   async (_, { rejectWithValue }) => {
@@ -31,7 +31,7 @@ export const fetchAllUsers = createAsyncThunk(
   }
 );
 
-// Update User Role
+
 export const updateUserRole = createAsyncThunk(
   "admin/updateUserRole",
   async ({ id, role }, { rejectWithValue }) => {
@@ -46,13 +46,13 @@ export const updateUserRole = createAsyncThunk(
   }
 );
 
-// Delete User
+
 export const deleteUser = createAsyncThunk(
   "admin/deleteUser",
   async (id, { rejectWithValue }) => {
     try {
       await api.delete(`/admin/users/${id}`);
-      return id; // Return ID to remove from state
+      return id;  
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || "Failed to delete user"
@@ -82,7 +82,7 @@ const adminSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Dashboard Stats
+     
       .addCase(fetchDashboardStats.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -95,7 +95,7 @@ const adminSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      // Fetch Users
+      
       .addCase(fetchAllUsers.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -108,7 +108,7 @@ const adminSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      // Update User Role
+     
       .addCase(updateUserRole.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -116,7 +116,7 @@ const adminSlice = createSlice({
       .addCase(updateUserRole.fulfilled, (state, action) => {
         state.loading = false;
         state.success = true;
-        // Update user in array
+        
         const updatedUser = action.payload.data;
         const index = state.users.findIndex((u) => u._id === updatedUser._id);
         if (index !== -1) {
@@ -127,7 +127,7 @@ const adminSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      // Delete User
+     
       .addCase(deleteUser.pending, (state) => {
         state.loading = true;
         state.error = null;

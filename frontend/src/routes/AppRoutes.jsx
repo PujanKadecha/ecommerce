@@ -1,4 +1,9 @@
-import { createBrowserRouter, RouterProvider, ScrollRestoration, Outlet } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  ScrollRestoration,
+  Outlet,
+} from "react-router-dom";
 import ProtectedRoute from "../components/common/ProtectedRoute";
 import GuestRoute from "../components/common/GuestRoute";
 import MainLayout from "../layouts/MainLayout";
@@ -44,103 +49,103 @@ const router = createBrowserRouter([
         path: "/",
         element: <MainLayout />,
         children: [
-      {
-        index: true,
-        element: <HomePage />,
+          {
+            index: true,
+            element: <HomePage />,
+          },
+          {
+            path: "products",
+            element: <ProductPage />,
+          },
+          {
+            path: "categories",
+            element: <CategoryPage />,
+          },
+          {
+            path: "products/:id",
+            element: <ProductDetailsPage />,
+          },
+          {
+            path: "cart",
+            element: <CartPage />,
+          },
+          {
+            path: "checkout",
+            element: (
+              <ProtectedRoute>
+                <CheckoutPage />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "profile",
+            element: (
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "orders",
+            element: (
+              <ProtectedRoute>
+                <OrdersPage />
+              </ProtectedRoute>
+            ),
+          },
+        ],
       },
       {
-        path: "products",
-        element: <ProductPage />,
-      },
-      {
-        path: "categories",
-        element: <CategoryPage />,
-      },
-      {
-        path: "products/:id",
-        element: <ProductDetailsPage />,
-      },
-      {
-        path: "cart",
-        element: <CartPage />,
-      },
-      {
-        path: "checkout",
+        path: "/auth",
         element: (
-          <ProtectedRoute>
-            <CheckoutPage />
-          </ProtectedRoute>
+          <GuestRoute>
+            <AuthLayout />
+          </GuestRoute>
         ),
+        children: [
+          {
+            path: "login",
+            element: <LoginPage />,
+          },
+          {
+            path: "register",
+            element: <RegisterPage />,
+          },
+          {
+            path: "forgot-password",
+            element: <ForgotPasswordPage />,
+          },
+          {
+            path: "reset-password/:token",
+            element: <ResetPasswordPage />,
+          },
+        ],
       },
       {
-        path: "profile",
+        path: "/admin",
         element: (
-          <ProtectedRoute>
-            <ProfilePage />
-          </ProtectedRoute>
+          <AdminRoute>
+            <AdminLayout />
+          </AdminRoute>
         ),
-      },
-      {
-        path: "orders",
-        element: (
-          <ProtectedRoute>
-            <OrdersPage />
-          </ProtectedRoute>
-        ),
-      },
-    ],
-  },
-  {
-    path: "/auth",
-    element: (
-      <GuestRoute>
-        <AuthLayout />
-      </GuestRoute>
-    ),
-    children: [
-      {
-        path: "login",
-        element: <LoginPage />,
-      },
-      {
-        path: "register",
-        element: <RegisterPage />,
-      },
-      {
-        path: "forgot-password",
-        element: <ForgotPasswordPage />,
-      },
-      {
-        path: "reset-password/:token",
-        element: <ResetPasswordPage />,
-      },
-    ],
-  },
-  {
-    path: "/admin",
-    element: (
-      <AdminRoute>
-        <AdminLayout />
-      </AdminRoute>
-    ),
-    children: [
-      {
-        index: true,
-        element: <AdminDashboard />,
-      },
-      {
-        path: "users",
-        element: <AdminUsersPage />,
-      },
-      {
-        path: "products",
-        element: <AdminProductsPage />,
-      },
-      {
-        path: "categories",
-        element: <AdminCategoriesPage />,
-      },
-    ],
+        children: [
+          {
+            index: true,
+            element: <AdminDashboard />,
+          },
+          {
+            path: "users",
+            element: <AdminUsersPage />,
+          },
+          {
+            path: "products",
+            element: <AdminProductsPage />,
+          },
+          {
+            path: "categories",
+            element: <AdminCategoriesPage />,
+          },
+        ],
       },
       {
         path: "*",

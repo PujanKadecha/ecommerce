@@ -8,7 +8,7 @@ export const getCategoryById = (id) => {
   return api.get(`/categories/${id}`);
 };
 
-// Admin Routes
+
 export const createCategory = (data) => {
   return api.post("/categories", data);
 };

@@ -19,11 +19,11 @@ function ProfilePage() {
   const { user } = useSelector((state) => state.auth || {});
 
   const handleLogout = async () => {
-    // Clear local state immediately — user is logged out right away
+  
     dispatch(logoutLocal());
     toast.success("Logged out successfully");
     navigate("/auth/login");
-    // Best-effort server-side logout (invalidate refresh token)
+    
     try {
       const refreshToken = JSON.parse(
         localStorage.getItem("persist:auth") || "{}"

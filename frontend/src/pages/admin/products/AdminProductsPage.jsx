@@ -19,20 +19,36 @@ import {
   TextField,
   IconButton,
   Grid,
+  MenuItem,
 } from "@mui/material";
-import { Delete as DeleteIcon, Edit as EditIcon, Add as AddIcon, PhotoCamera } from "@mui/icons-material";
-import { fetchProducts, addProduct, editProduct, removeProduct } from "../../../store/slices/product.slice";
-import { uploadProductImages } from "../../../api/product.api";
+import {
+  Delete as DeleteIcon,
+  Edit as EditIcon,
+  Add as AddIcon,
+  PhotoCamera,
+} from "@mui/icons-material";
+import {
+  fetchProducts,
+  addProduct,
+  editProduct,
+  removeProduct,
+} from "../../../store/slices/product.slice";
+import { fetchCategories } from "../../../store/slices/category.slice";
+import {
+  uploadProductImages,
+  deleteProductImage,
+} from "../../../api/product.api";
 import toast from "react-hot-toast";
 
 function AdminProductsPage() {
   const dispatch = useDispatch();
   const { products, loading } = useSelector((state) => state.product);
+  const { categories } = useSelector((state) => state.category);
 
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
-  
-  // Form State
+
+ 
   const [formData, setFormData] = useState({
     name: "",
     slug: "",
@@ -44,14 +60,17 @@ function AdminProductsPage() {
     category: "",
   });
   const [imageFiles, setImageFiles] = useState([]);
+  const [existingImages, setExistingImages] = useState([]);
 
   useEffect(() => {
     dispatch(fetchProducts());
+    dispatch(fetchCategories());
   }, [dispatch]);
 
   const handleOpen = (product = null) => {
     if (product) {
       setEditingId(product._id);
+      setExistingImages(product.images || []);
       setFormData({
         name: product.name,
         slug: product.slug,
@@ -64,6 +83,7 @@ function AdminProductsPage() {
       });
     } else {
       setEditingId(null);
+      setExistingImages([]);
       setFormData({
         name: "",
         slug: "",
@@ -101,7 +121,9 @@ function AdminProductsPage() {
 
       let savedProduct;
       if (editingId) {
-        const response = await dispatch(editProduct({ id: editingId, data: dataToSubmit })).unwrap();
+        const response = await dispatch(
+          editProduct({ id: editingId, data: dataToSubmit }),
+        ).unwrap();
         savedProduct = response;
         toast.success("Product updated successfully");
       } else {
@@ -120,7 +142,7 @@ function AdminProductsPage() {
       }
 
       handleClose();
-      dispatch(fetchProducts()); // Refetch to get populated category etc.
+      dispatch(fetchProducts());  
     } catch (error) {
       toast.error(error || "Failed to save product");
     }
@@ -137,6 +159,19 @@ function AdminProductsPage() {
     }
   };
 
+  const handleDeleteImage = async (imageId) => {
+    if (window.confirm("Are you sure you want to delete this image?")) {
+      try {
+        await deleteProductImage(editingId, imageId);
+        setExistingImages((prev) => prev.filter((img) => img._id !== imageId));
+        toast.success("Image deleted successfully");
+        dispatch(fetchProducts());
+      } catch (error) {
+        toast.error("Failed to delete image");
+      }
+    }
+  };
+
   if (loading && products.length === 0) {
     return (
       <Box sx={{ display: "flex", justifyContent: "center", p: 4 }}>
@@ -147,7 +182,14 @@ function AdminProductsPage() {
 
   return (
     <Box>
-      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 4 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 4,
+        }}
+      >
         <Typography variant="h4" sx={{ fontWeight: "bold" }}>
           Manage Products
         </Typography>
@@ -164,11 +206,32 @@ function AdminProductsPage() {
         <Table>
           <TableHead sx={{ backgroundColor: "primary.main" }}>
             <TableRow>
-              <TableCell sx={{ color: "primary.contrastText", fontWeight: "bold" }}>Name</TableCell>
-              <TableCell sx={{ color: "primary.contrastText", fontWeight: "bold" }}>Price</TableCell>
-              <TableCell sx={{ color: "primary.contrastText", fontWeight: "bold" }}>Stock</TableCell>
-              <TableCell sx={{ color: "primary.contrastText", fontWeight: "bold" }}>Category</TableCell>
-              <TableCell align="right" sx={{ color: "primary.contrastText", fontWeight: "bold" }}>Actions</TableCell>
+              <TableCell
+                sx={{ color: "primary.contrastText", fontWeight: "bold" }}
+              >
+                Name
+              </TableCell>
+              <TableCell
+                sx={{ color: "primary.contrastText", fontWeight: "bold" }}
+              >
+                Price
+              </TableCell>
+              <TableCell
+                sx={{ color: "primary.contrastText", fontWeight: "bold" }}
+              >
+                Stock
+              </TableCell>
+              <TableCell
+                sx={{ color: "primary.contrastText", fontWeight: "bold" }}
+              >
+                Category
+              </TableCell>
+              <TableCell
+                align="right"
+                sx={{ color: "primary.contrastText", fontWeight: "bold" }}
+              >
+                Actions
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -179,10 +242,16 @@ function AdminProductsPage() {
                 <TableCell>{product.stock}</TableCell>
                 <TableCell>{product.category?.name || "N/A"}</TableCell>
                 <TableCell align="right">
-                  <IconButton color="primary" onClick={() => handleOpen(product)}>
+                  <IconButton
+                    color="primary"
+                    onClick={() => handleOpen(product)}
+                  >
                     <EditIcon />
                   </IconButton>
-                  <IconButton color="error" onClick={() => handleDelete(product._id)}>
+                  <IconButton
+                    color="error"
+                    onClick={() => handleDelete(product._id)}
+                  >
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
@@ -281,17 +350,34 @@ function AdminProductsPage() {
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                label="Category ID"
+                select
+                label="Category"
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
-                helperText="Enter the valid Object ID of a category"
+                helperText="Select a category for this product"
                 required
-              />
+              >
+                <MenuItem value="" disabled>
+                  Select a category
+                </MenuItem>
+                {categories &&
+                  categories.map((cat) => (
+                    <MenuItem key={cat._id} value={cat._id}>
+                      {cat.name}
+                    </MenuItem>
+                  ))}
+              </TextField>
             </Grid>
             <Grid item xs={12}>
-              <Box sx={{ mt: 1, display: "flex", alignItems: "center", gap: 2 }}>
-                <Button variant="outlined" component="label" startIcon={<PhotoCamera />}>
+              <Box
+                sx={{ mt: 1, display: "flex", alignItems: "center", gap: 2 }}
+              >
+                <Button
+                  variant="outlined"
+                  component="label"
+                  startIcon={<PhotoCamera />}
+                >
                   Upload Images (Up to 5)
                   <input
                     type="file"
@@ -307,6 +393,42 @@ function AdminProductsPage() {
                   </Typography>
                 )}
               </Box>
+              {existingImages.length > 0 && (
+                <Box sx={{ mt: 2, display: "flex", gap: 2, flexWrap: "wrap" }}>
+                  {existingImages.map((img) => (
+                    <Box
+                      key={img._id}
+                      sx={{ position: "relative", width: 80, height: 80 }}
+                    >
+                      <img
+                        src={img.url}
+                        alt="Product"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          borderRadius: 4,
+                        }}
+                      />
+                      <IconButton
+                        size="small"
+                        color="error"
+                        sx={{
+                          position: "absolute",
+                          top: -8,
+                          right: -8,
+                          backgroundColor: "white",
+                          "&:hover": { backgroundColor: "#ffebee" },
+                          border: "1px solid #ccc",
+                        }}
+                        onClick={() => handleDeleteImage(img._id)}
+                      >
+                        <DeleteIcon fontSize="small" />
+                      </IconButton>
+                    </Box>
+                  ))}
+                </Box>
+              )}
             </Grid>
           </Grid>
         </DialogContent>

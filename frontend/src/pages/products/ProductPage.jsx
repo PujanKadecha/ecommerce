@@ -20,9 +20,10 @@ function ProductPage() {
   let filteredProducts = products || [];
 
   if (selectedCategory) {
-    filteredProducts = filteredProducts.filter(
-      (p) => p.category?.toLowerCase() === selectedCategory.toLowerCase()
-    );
+    filteredProducts = filteredProducts.filter((p) => {
+      const categoryName = typeof p.category === 'string' ? p.category : p.category?.name;
+      return categoryName?.toLowerCase() === selectedCategory.toLowerCase();
+    });
   }
 
   if (searchQuery) {

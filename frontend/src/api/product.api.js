@@ -8,7 +8,7 @@ export const getProductById = (id) => {
   return api.get(`/products/${id}`);
 };
 
-// Admin Routes
+
 export const createProduct = (data) => {
   return api.post("/products", data);
 };
