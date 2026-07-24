@@ -61,9 +61,52 @@ export const deleteUser = createAsyncThunk(
   }
 );
 
+export const fetchAdminOrders = createAsyncThunk(
+  "admin/fetchAdminOrders",
+  async (queryParams = "", { rejectWithValue }) => {
+    try {
+      const response = await api.get(`/orders/admin/orders${queryParams}`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch orders"
+      );
+    }
+  }
+);
+
+export const updateAdminOrderStatus = createAsyncThunk(
+  "admin/updateAdminOrderStatus",
+  async ({ id, orderStatus }, { rejectWithValue }) => {
+    try {
+      const response = await api.patch(`/orders/admin/orders/${id}/status`, { orderStatus });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to update order status"
+      );
+    }
+  }
+);
+
+export const deleteAdminOrder = createAsyncThunk(
+  "admin/deleteAdminOrder",
+  async (id, { rejectWithValue }) => {
+    try {
+      await api.delete(`/orders/admin/orders/${id}`);
+      return id;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to delete order"
+      );
+    }
+  }
+);
+
 const initialState = {
   stats: null,
   users: [],
+  orders: [],
   loading: false,
   error: null,
   success: false,
@@ -138,6 +181,51 @@ const adminSlice = createSlice({
         state.users = state.users.filter((u) => u._id !== action.payload);
       })
       .addCase(deleteUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      
+      .addCase(fetchAdminOrders.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAdminOrders.fulfilled, (state, action) => {
+        state.loading = false;
+        state.orders = action.payload.data;
+      })
+      .addCase(fetchAdminOrders.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      
+      .addCase(updateAdminOrderStatus.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateAdminOrderStatus.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        const updatedOrder = action.payload.data;
+        const index = state.orders.findIndex((o) => o._id === updatedOrder._id);
+        if (index !== -1) {
+          state.orders[index] = updatedOrder;
+        }
+      })
+      .addCase(updateAdminOrderStatus.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      
+      .addCase(deleteAdminOrder.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteAdminOrder.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.orders = state.orders.filter((o) => o._id !== action.payload);
+      })
+      .addCase(deleteAdminOrder.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

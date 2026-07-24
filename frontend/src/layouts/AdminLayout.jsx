@@ -23,6 +23,7 @@ import {
   Inventory as InventoryIcon,
   Category as CategoryIcon,
   Logout as LogoutIcon,
+  ShoppingCart as ShoppingCartIcon,
 } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
 import { logout } from "../store/slices/auth.slice";
@@ -34,6 +35,7 @@ const menuItems = [
   { text: "Users", icon: <PeopleIcon />, path: "/admin/users" },
   { text: "Products", icon: <InventoryIcon />, path: "/admin/products" },
   { text: "Categories", icon: <CategoryIcon />, path: "/admin/categories" },
+  { text: "Orders", icon: <ShoppingCartIcon />, path: "/admin/orders" },
 ];
 
 function AdminLayout() {

@@ -67,6 +67,14 @@ router.patch(
   orderController.updateOrderStatus,
 );
 
+router.delete(
+  "/admin/orders/:id",
+  authenticate,
+  authorize("admin"),
+  validate(orderIdSchema, "params"),
+  orderController.deleteAdminOrder,
+);
+
 
 
 module.exports = router;

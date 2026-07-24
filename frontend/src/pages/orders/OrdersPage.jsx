@@ -131,19 +131,19 @@ function OrdersPage() {
 
               <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                 <Chip
-                  label={order.status || "PENDING"}
+                  label={order.orderStatus ? order.orderStatus.toUpperCase() : "PENDING"}
                   sx={{
                     borderRadius: 0,
                     fontWeight: 700,
                     fontSize: "0.7rem",
                     letterSpacing: "0.08em",
                     backgroundColor:
-                      order.status === "Delivered"
+                      order.orderStatus === "delivered"
                         ? "#000000"
-                        : order.status === "Cancelled"
+                        : order.orderStatus === "cancelled"
                         ? "#e5e5e5"
                         : "#111111",
-                    color: order.status === "Cancelled" ? "#666666" : "#ffffff",
+                    color: order.orderStatus === "cancelled" ? "#666666" : "#ffffff",
                   }}
                 />
 

@@ -29,6 +29,8 @@ function ProductInfo({ product }) {
     }
   };
 
+ 
+
   return (
     <Box
       sx={{
@@ -91,7 +93,7 @@ function ProductInfo({ product }) {
       {/* Rating & Stock */}
       <Stack direction="row" spacing={2} alignItems="center" mb={3}>
         <Rating
-          value={product.averageRating || 4.5}
+          value={product.averageRating || 0}
           precision={0.5}
           readOnly
           size="small"

@@ -31,6 +31,7 @@ import AdminDashboard from "../pages/admin/AdminDashboard";
 import AdminUsersPage from "../pages/admin/users/AdminUsersPage";
 import AdminProductsPage from "../pages/admin/products/AdminProductsPage";
 import AdminCategoriesPage from "../pages/admin/categories/AdminCategoriesPage";
+import AdminOrdersPage from "../pages/admin/orders/AdminOrdersPage";
 
 function RootLayout() {
   return (
@@ -144,6 +145,10 @@ const router = createBrowserRouter([
           {
             path: "categories",
             element: <AdminCategoriesPage />,
+          },
+          {
+            path: "orders",
+            element: <AdminOrdersPage />,
           },
         ],
       },

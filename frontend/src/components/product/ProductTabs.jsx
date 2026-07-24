@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Box, Tab, Tabs, Typography, Divider } from "@mui/material";
+import ProductReviews from "./ProductReviews";
 
 function TabPanel({ children, value, index }) {
   return (
@@ -98,9 +99,7 @@ function ProductTabs({ product }) {
       </TabPanel>
 
       <TabPanel value={tab} index={2}>
-        <Typography sx={{ color: "#666666", fontStyle: "italic", fontSize: "0.9rem" }}>
-          Customer reviews and ratings for this product.
-        </Typography>
+        <ProductReviews productId={product._id} />
       </TabPanel>
     </Box>
   );

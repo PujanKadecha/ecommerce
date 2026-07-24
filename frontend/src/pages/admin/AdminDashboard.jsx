@@ -68,33 +68,25 @@ function AdminDashboard() {
         <Grid item xs={12} sm={6} md={3}>
           <StatCard
             title="Total Users"
-            value={stats?.totalUsers || 0}
-            icon={<People sx={{ color: "primary.main" }} />}
-            color="primary"
+            value={stats?.totalUsers || 0}           
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <StatCard
             title="Total Products"
-            value={stats?.totalProducts || 0}
-            icon={<Inventory sx={{ color: "success.main" }} />}
-            color="success"
+            value={stats?.totalProducts || 0}           
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <StatCard
             title="Total Categories"
             value={stats?.totalCategories || 0}
-            icon={<Category sx={{ color: "warning.main" }} />}
-            color="warning"
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <StatCard
             title="Total Orders"
             value={stats?.totalOrders || 0}
-            icon={<ShoppingCart sx={{ color: "info.main" }} />}
-            color="info"
           />
         </Grid>
       </Grid>
@@ -142,6 +134,19 @@ function AdminDashboard() {
             sx={{ py: 2 }}
           >
             Manage Categories
+          </Button>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <Button
+            fullWidth
+            variant="contained"
+            color="info"
+            size="large"
+            startIcon={<ShoppingCart />}
+            onClick={() => navigate("/admin/orders")}
+            sx={{ py: 2 }}
+          >
+            Manage Orders
           </Button>
         </Grid>
       </Grid>

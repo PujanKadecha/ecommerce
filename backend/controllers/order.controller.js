@@ -115,6 +115,19 @@ const getDashboardStatistics = async(req,res,next) => {
     }
 }
 
+const deleteAdminOrder = async (req, res, next) => {
+  try {
+    await orderServices.deleteOrder(req.params.id);
+
+    res.status(200).json({
+      success: true,
+      message: "Order deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   placeOrder,
   getOrders,
@@ -123,5 +136,6 @@ module.exports = {
   getAllOrders,
   getAdminOrderById,
   updateOrderStatus,
-  getDashboardStatistics
+  getDashboardStatistics,
+  deleteAdminOrder
 };

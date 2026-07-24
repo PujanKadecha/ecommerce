@@ -339,6 +339,17 @@ const getDashboardStatistics = async () => {
   };
 };
 
+const deleteOrder = async (orderId) => {
+  const order = await Order.findById(orderId);
+  if (!order) {
+    const error = new Error("Order not found");
+    error.statusCode = 404;
+    throw error;
+  }
+  await order.deleteOne();
+  return orderId;
+};
+
 module.exports = {
   placeOrder,
   getOrders,
@@ -347,5 +358,6 @@ module.exports = {
   getAllOrders,
   getAdminOrderById,
   updateOrderStatus,
-  getDashboardStatistics
+  getDashboardStatistics,
+  deleteOrder
 };
