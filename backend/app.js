@@ -45,7 +45,7 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-app.use(`/api/${env.apiVersion}`, routes);
+app.use(`/api/v1`, routes);
 
 app.use(notFound);
 
