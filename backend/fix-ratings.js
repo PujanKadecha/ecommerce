@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const Product = require('./backend/models/product.model');
-const Review = require('./backend/models/review.model');
+const Product = require('./models/product.model');
+const Review = require('./models/review.model');
 
 mongoose.connect('mongodb://localhost:27017/E-Commerce').then(async () => {
   try {
