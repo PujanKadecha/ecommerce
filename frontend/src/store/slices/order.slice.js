@@ -107,6 +107,26 @@ const orderSlice = createSlice({
       // fetchOrderDetails
       .addCase(fetchOrderDetails.fulfilled, (state, action) => {
         state.currentOrder = action.payload;
+      })
+      // cancelUserOrder
+      .addCase(cancelUserOrder.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(cancelUserOrder.fulfilled, (state, action) => {
+        state.loading = false;
+        const updatedOrder = action.payload;
+        const index = state.orders.findIndex((o) => o._id === updatedOrder._id);
+        if (index !== -1) {
+          state.orders[index] = updatedOrder;
+        }
+        if (state.currentOrder?._id === updatedOrder._id) {
+          state.currentOrder = updatedOrder;
+        }
+      })
+      .addCase(cancelUserOrder.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });

@@ -11,7 +11,8 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchOrders } from "../../store/slices/order.slice";
+import { fetchOrders, cancelUserOrder } from "../../store/slices/order.slice";
+import toast from "react-hot-toast";
 
 function OrdersPage() {
   const dispatch = useDispatch();
@@ -20,6 +21,17 @@ function OrdersPage() {
   useEffect(() => {
     dispatch(fetchOrders());
   }, [dispatch]);
+
+  const handleCancelOrder = async (id) => {
+    if (window.confirm("Are you sure you want to cancel this order?")) {
+      try {
+        await dispatch(cancelUserOrder(id)).unwrap();
+        toast.success("Order cancelled successfully");
+      } catch (err) {
+        toast.error(err || "Failed to cancel order");
+      }
+    }
+  };
 
   if (loading && (!orders || orders.length === 0)) {
     return (
@@ -152,6 +164,20 @@ function OrdersPage() {
                 </Typography>
               </Box>
             </Box>
+
+            {/* Cancel Button Header Action */}
+            {["pending", "confirmed"].includes(order.orderStatus) && (
+              <Box sx={{ mb: 3, display: "flex", justifyContent: "flex-end" }}>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  size="small"
+                  onClick={() => handleCancelOrder(order._id)}
+                >
+                  Cancel Order
+                </Button>
+              </Box>
+            )}
 
             <Divider sx={{ mb: 3, borderColor: "#e5e5e5" }} />
 
