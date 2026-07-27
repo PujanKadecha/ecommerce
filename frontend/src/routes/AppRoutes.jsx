@@ -22,7 +22,6 @@ import OrdersPage from "../pages/orders/OrdersPage";
 import LoginPage from "../pages/auth/LoginPage";
 import RegisterPage from "../pages/auth/RegisterPage";
 import ForgotPasswordPage from "../pages/auth/ForgotPasswordPage";
-import ResetPasswordPage from "../pages/auth/ResetPasswordPage";
 import NotFoundPage from "../pages/error/NotFoundPage";
 
 import AdminRoute from "../components/common/AdminRoute";
@@ -115,11 +114,7 @@ const router = createBrowserRouter([
           {
             path: "forgot-password",
             element: <ForgotPasswordPage />,
-          },
-          {
-            path: "reset-password/:token",
-            element: <ResetPasswordPage />,
-          },
+          },   
         ],
       },
       {
