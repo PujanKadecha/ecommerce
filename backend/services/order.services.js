@@ -181,7 +181,7 @@ const getAllOrders = async (query) => {
   }
 
   const orders = await Order.find(filter)
-    .populate("user", "name email")
+    .populate("user", "firstName lastName email")
     .sort({
       createdAt: -1,
     })
@@ -204,7 +204,7 @@ const getAllOrders = async (query) => {
 const getAdminOrderById = async (orderId) => {
   const order = await Order.findById(orderId).populate(
     "user",
-    "name email role",
+    "firstName lastName email role",
   );
 
   if (!order) {
@@ -320,7 +320,7 @@ const getDashboardStatistics = async () => {
   ]);
 
   const recentOrders = await Order.find()
-    .populate("user", "name email")
+    .populate("user", "firstName lastName email")
     .sort({
       createdAt: -1,
     })
