@@ -68,7 +68,7 @@ function LoginPage() {
           helperText={errors.password?.message}
         />
 
-        <Stack
+        {/* <Stack
           direction="row"
           justifyContent="space-between"
           alignItems="center"
@@ -85,7 +85,7 @@ function LoginPage() {
           >
             Forgot Password?
           </Typography>
-        </Stack>
+        </Stack> */}
 
         <Button
           type="submit"
