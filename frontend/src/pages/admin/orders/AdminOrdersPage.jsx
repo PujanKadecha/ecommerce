@@ -123,7 +123,7 @@ function AdminOrdersPage() {
                   </TableCell>
                   <TableCell>
                     {/* <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                      {order.shippingAddress?.fullName || "Unknown"}
+                      {order.user?.name || "Unknown"}
                     </Typography> */}
                     <Typography variant="caption" color="text.secondary">
                       {order.user?.email || "No email"}
@@ -200,7 +200,7 @@ function AdminOrdersPage() {
               </Box>
               <Box sx={{ mb: 2 }}>
                 <Typography variant="subtitle2" color="text.secondary">Customer</Typography>
-                <Typography variant="body1">{selectedOrder.shippingAddress?.fullName || "Unknown"} ({selectedOrder.user?.email || "No email"})</Typography>
+                <Typography variant="body1">{selectedOrder.user?.name} ({selectedOrder.user?.email})</Typography>
               </Box>
               <Box sx={{ mb: 2 }}>
                 <Typography variant="subtitle2" color="text.secondary">Shipping Address</Typography>
