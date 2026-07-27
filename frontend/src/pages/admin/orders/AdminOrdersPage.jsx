@@ -122,9 +122,9 @@ function AdminOrdersPage() {
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                    {/* <Typography variant="body2" sx={{ fontWeight: 600 }}>
                       {order.shippingAddress?.fullName || "Unknown"}
-                    </Typography>
+                    </Typography> */}
                     <Typography variant="caption" color="text.secondary">
                       {order.user?.email || "No email"}
                     </Typography>
