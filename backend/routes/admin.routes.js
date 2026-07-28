@@ -10,7 +10,7 @@ const {
 } = require("../validators/admin.validator");
 
 router.use(authenticate);
-router.use(authorize("admin"));
+router.use(authorize("admin","seller"));
 
 router.get("/users", adminController.getAllUsers);
 
