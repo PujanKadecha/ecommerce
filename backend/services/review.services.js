@@ -92,7 +92,7 @@ const updateReview = async (reviewId, userId, data) => {
   return review;
 };
 
-const deleteReview = async (reviewId, userId) => {
+const deleteReview = async (reviewId, userId,role) => {
   const review = await Review.findById(reviewId);
 
   if (!review) {

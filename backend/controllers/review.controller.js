@@ -55,6 +55,7 @@ const deleteReview = async (req, res, next) => {
     const review = await reviewServices.deleteReview(
       req.params.reviewId,
       req.user.id,
+      req.user.role
     );
 
     res.status(200).json({
