@@ -238,7 +238,7 @@ function AdminProductsPage() {
             {products.map((product) => (
               <TableRow key={product._id} hover>
                 <TableCell>{product.name}</TableCell>
-                <TableCell>${product.price}</TableCell>
+                <TableCell>₹{product.price}</TableCell>
                 <TableCell>{product.stock}</TableCell>
                 <TableCell>{product.category?.name || "N/A"}</TableCell>
                 <TableCell align="right">
