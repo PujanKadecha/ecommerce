@@ -99,7 +99,7 @@ const deleteReview = async (reviewId, userId) => {
     throw new Error("Review not found");
   }
 
-  if (review.user.toString() !== userId.toString()) {
+  if (review.user.toString() !== userId.toString() && role !== "admin") {
     throw new Error("Unauthorized");
   }
 
