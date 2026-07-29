@@ -17,7 +17,7 @@ function App() {
 
   useEffect(() => {
     const handleAuthExpired = () => {
-      dispatch(logoutLocal());
+      // dispatch(logoutLocal());
       toast.error("Your session has expired. Please log in again.");
 
       setTimeout(() => {
@@ -25,7 +25,7 @@ function App() {
       }, 1500);
     };
 
-    window.addEventListener("auth:expired", handleAuthExpired);
+    // window.addEventListener("auth:expired", handleAuthExpired);
     // return () => window.removeEventListener("auth:expired", handleAuthExpired);
   }, [dispatch]);
 
