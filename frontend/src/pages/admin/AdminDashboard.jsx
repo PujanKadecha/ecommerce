@@ -89,6 +89,12 @@ function AdminDashboard() {
             value={stats?.totalOrders || 0}
           />
         </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <StatCard
+            title="Verified Users"
+            value={stats?.verifiedUsers || 0}
+          />
+        </Grid>
       </Grid>
 
       <Divider sx={{ my: 6 }} />
