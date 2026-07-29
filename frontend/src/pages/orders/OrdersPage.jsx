@@ -166,7 +166,7 @@ function OrdersPage() {
             </Box>
 
             {/* Cancel Button Header Action */}
-            {["pending", "confirmed"].includes(order.orderStatus) && (
+            {["pending", "confirmed","Processing"].includes(order.orderStatus) && (
               <Box sx={{ mb: 3, display: "flex", justifyContent: "flex-end" }}>
                 <Button
                   variant="outlined"
