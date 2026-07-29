@@ -45,6 +45,7 @@ function Footer() {
                 lineHeight: 1.8,
                 maxWidth: 320,
                 fontSize: "0.85rem",
+                mb: 3,
               }}
             >
               A modern, minimalist general-purpose e-commerce destination
@@ -107,7 +108,7 @@ function Footer() {
             </Box>
           </Grid>
 
-          {/* Support
+          {/* Customer Care */}
           <Grid item xs={6} md={2}>
             <Typography
               variant="caption"
@@ -157,9 +158,62 @@ function Footer() {
                 Terms of Service
               </Link>
             </Box>
-          </Grid> */}
+          </Grid>
 
-          
+          {/* Account */}
+          <Grid item xs={6} md={2}>
+            <Typography
+              variant="caption"
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                display: "block",
+                mb: 2.5,
+                color: "#ffffff",
+              }}
+            >
+              Account
+            </Typography>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
+              <Link
+                component={RouterLink}
+                to="/profile"
+                sx={{
+                  color: "#aaaaaa",
+                  fontSize: "0.85rem",
+                  textDecoration: "none",
+                  "&:hover": { color: "#ffffff" },
+                }}
+              >
+                My Profile
+              </Link>
+              <Link
+                component={RouterLink}
+                to="/orders"
+                sx={{
+                  color: "#aaaaaa",
+                  fontSize: "0.85rem",
+                  textDecoration: "none",
+                  "&:hover": { color: "#ffffff" },
+                }}
+              >
+                My Orders
+              </Link>
+              <Link
+                component={RouterLink}
+                to="/cart"
+                sx={{
+                  color: "#aaaaaa",
+                  fontSize: "0.85rem",
+                  textDecoration: "none",
+                  "&:hover": { color: "#ffffff" },
+                }}
+              >
+                Shopping Bag
+              </Link>
+            </Box>
+          </Grid>
         </Grid>
 
         <Divider
@@ -182,13 +236,13 @@ function Footer() {
             variant="caption"
             sx={{ color: "#666666", fontSize: "0.75rem" }}
           >
-            © {new Date().getFullYear()} E-commerce STORE. ALL RIGHTS RESERVED.
+            © {new Date().getFullYear()} E-Commerce Store. All rights reserved.
           </Typography>
           <Typography
             variant="caption"
             sx={{ color: "#666666", fontSize: "0.75rem" }}
           >
-            CRAFTED WITH PRECISION
+            Crafted with precision
           </Typography>
         </Box>
       </Container>

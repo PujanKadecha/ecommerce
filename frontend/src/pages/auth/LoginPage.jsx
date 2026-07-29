@@ -92,18 +92,45 @@ function LoginPage() {
           variant="contained"
           fullWidth
           disabled={loading}
-          sx={{ mt: 3 }}
+          sx={{
+            mt: 3,
+            py: 1.75,
+            fontWeight: 700,
+            fontSize: "0.875rem",
+            letterSpacing: "0.08em",
+          }}
         >
-          {loading ? "Logging In..." : "Login"}
+          {loading ? "Signing In..." : "Sign In"}
         </Button>
+
         {error && (
-          <Typography color="error" mt={2} textAlign="center">
+          <Typography
+            color="error"
+            mt={2}
+            textAlign="center"
+            sx={{ fontSize: "0.85rem" }}
+          >
             {error}
           </Typography>
         )}
 
-        <Typography textAlign="center" mt={3}>
-          Don't have an account? <Link to="/auth/register">Register</Link>
+        <Typography
+          textAlign="center"
+          mt={4}
+          sx={{ color: "#888888", fontSize: "0.875rem" }}
+        >
+          Don't have an account?{" "}
+          <Link
+            to="/auth/register"
+            style={{
+              color: "#111111",
+              fontWeight: 700,
+              textDecoration: "none",
+              borderBottom: "1px solid #111111",
+            }}
+          >
+            Create one
+          </Link>
         </Typography>
       </form>
     </AuthCard>

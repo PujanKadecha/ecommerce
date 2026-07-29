@@ -15,6 +15,30 @@ const theme = createTheme({
       dark: "#e5e5e5",
       contrastText: "#000000",
     },
+    success: {
+      main: "#16a34a",
+      light: "#dcfce7",
+      dark: "#15803d",
+      contrastText: "#ffffff",
+    },
+    warning: {
+      main: "#d97706",
+      light: "#fef3c7",
+      dark: "#b45309",
+      contrastText: "#ffffff",
+    },
+    info: {
+      main: "#0284c7",
+      light: "#e0f2fe",
+      dark: "#0369a1",
+      contrastText: "#ffffff",
+    },
+    error: {
+      main: "#dc2626",
+      light: "#fee2e2",
+      dark: "#b91c1c",
+      contrastText: "#ffffff",
+    },
     background: {
       default: "#ffffff",
       paper: "#fafafa",
@@ -154,6 +178,27 @@ const theme = createTheme({
               borderWidth: "1.5px",
             },
           },
+        },
+      },
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          borderBottom: "1px solid #f0f0f0",
+        },
+        head: {
+          fontWeight: 700,
+          fontSize: "0.75rem",
+          letterSpacing: "0.08em",
+          textTransform: "uppercase",
+        },
+      },
+    },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 0,
+          transition: "all 0.15s ease",
         },
       },
     },
