@@ -15,19 +15,19 @@ function App() {
     dispatch(fetchCurrentUser());
   }, [dispatch]);
 
-  useEffect(() => {
-    const handleAuthExpired = () => {
-      dispatch(logoutLocal());
-      toast.error("Your session has expired. Please log in again.");
+  // useEffect(() => {
+  //   const handleAuthExpired = () => {
+  //     dispatch(logoutLocal());
+  //     toast.error("Your session has expired. Please log in again.");
       
-      setTimeout(() => {
-        window.location.href = "/auth/login";
-      }, 1500);
-    };
+  //     setTimeout(() => {
+  //       window.location.href = "/auth/login";
+  //     }, 1500);
+  //   };
 
-    window.addEventListener("auth:expired", handleAuthExpired);
-    return () => window.removeEventListener("auth:expired", handleAuthExpired);
-  }, [dispatch]);
+  //   window.addEventListener("auth:expired", handleAuthExpired);
+  //   return () => window.removeEventListener("auth:expired", handleAuthExpired);
+  // }, [dispatch]);
 
   return (
     <ThemeProvider theme={theme}>
