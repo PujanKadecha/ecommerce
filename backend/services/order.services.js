@@ -141,9 +141,9 @@ const cancelOrder = async (userId, orderId) => {
     throw error;
   }
 
-  if (!["pending", "confirmed"].includes(order.orderStatus)) {
+  if (!["pending", "confirmed","processing"].includes(order.orderStatus)) {
     const error = new Error(
-      "Only pending or confirmed orders can be cancelled",
+      "Only pending,confirmed or processing orders can be cancelled",
     );
 
     error.statusCode = 400;
