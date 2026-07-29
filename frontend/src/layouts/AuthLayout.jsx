@@ -130,8 +130,8 @@ function AuthLayout() {
               maxWidth: 340,
             }}
           >
-            Discover premium products, track your orders,
-            and enjoy a seamless checkout experience.
+            Discover premium products, track your orders 
+            and Get Detailes Of Orders.
           </Typography>
         </Box>
 
