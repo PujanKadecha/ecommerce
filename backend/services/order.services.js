@@ -233,7 +233,7 @@ const updateOrderStatus = async (orderId, status) => {
   const transitions = {
     pending: ["confirmed", "cancelled"],
     confirmed: ["processing", "cancelled"],
-    processing: ["shipped"],
+    processing: ["shipped","cancelled"],
     shipped: ["delivered"],
   };
 
