@@ -27,7 +27,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function Navbar() {
-  const { isAuthenticated } = useSelector((state) => state.auth || {});
+  const { isAuthenticated, user } = useSelector((state) => state.auth || {});
   const cartItems = useSelector((state) => state.cart?.items || []);
   const cartCount = cartItems.reduce((acc, item) => acc + (item.quantity || 1), 0);
 
@@ -134,6 +134,40 @@ function Navbar() {
             >
               Categories
             </Typography>
+
+            {user?.role === "admin" && (
+              <Typography
+                component={Link}
+                to="/admin"
+                variant="button"
+                sx={{
+                  color: "#111111",
+                  textDecoration: "none",
+                  fontWeight: 600,
+                  letterSpacing: "0.1em",
+                  "&:hover": { color: "#666666" },
+                }}
+              >
+                Admin
+              </Typography>
+            )}
+
+            {(user?.role === "admin" || user?.role === "seller") && (
+              <Typography
+                component={Link}
+                to="/seller"
+                variant="button"
+                sx={{
+                  color: "#111111",
+                  textDecoration: "none",
+                  fontWeight: 600,
+                  letterSpacing: "0.1em",
+                  "&:hover": { color: "#666666" },
+                }}
+              >
+                Seller
+              </Typography>
+            )}
           </Box>
         </Box>
 
@@ -325,6 +359,28 @@ function Navbar() {
               />
             </ListItemButton>
           </ListItem>
+
+          {user?.role === "admin" && (
+            <ListItem disablePadding sx={{ mb: 1.5 }}>
+              <ListItemButton component={Link} to="/admin" onClick={toggleDrawer} sx={{ px: 0 }}>
+                <ListItemText
+                  primary="ADMIN PANEL"
+                  primaryTypographyProps={{ fontWeight: 600, letterSpacing: "0.08em", fontSize: "0.9rem" }}
+                />
+              </ListItemButton>
+            </ListItem>
+          )}
+
+          {(user?.role === "admin" || user?.role === "seller") && (
+            <ListItem disablePadding sx={{ mb: 1.5 }}>
+              <ListItemButton component={Link} to="/seller" onClick={toggleDrawer} sx={{ px: 0 }}>
+                <ListItemText
+                  primary="SELLER PANEL"
+                  primaryTypographyProps={{ fontWeight: 600, letterSpacing: "0.08em", fontSize: "0.9rem" }}
+                />
+              </ListItemButton>
+            </ListItem>
+          )}
         </List>
 
         <Divider sx={{ my: 3 }} />

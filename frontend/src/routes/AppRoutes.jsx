@@ -25,6 +25,9 @@ import NotFoundPage from "../pages/error/NotFoundPage";
 
 import AdminRoute from "../components/common/AdminRoute";
 import AdminLayout from "../layouts/AdminLayout";
+import SellerRoute from "../components/common/SellerRoute";
+import SellerLayout from "../layouts/SellerLayout";
+import SellerDashboard from "../pages/seller/SellerDashboard";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import AdminUsersPage from "../pages/admin/users/AdminUsersPage";
 import AdminProductsPage from "../pages/admin/products/AdminProductsPage";
@@ -135,6 +138,28 @@ const router = createBrowserRouter([
           {
             path: "categories",
             element: <AdminCategoriesPage />,
+          },
+          {
+            path: "orders",
+            element: <AdminOrdersPage />,
+          },
+        ],
+      },
+      {
+        path: "/seller",
+        element: (
+          <SellerRoute>
+            <SellerLayout />
+          </SellerRoute>
+        ),
+        children: [
+          {
+            index: true,
+            element: <SellerDashboard />,
+          },
+          {
+            path: "products",
+            element: <AdminProductsPage />,
           },
           {
             path: "orders",

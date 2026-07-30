@@ -39,21 +39,21 @@ router.post(
 router.get(
   "/admin/orders",
   authenticate,
-  authorize("admin"),
+  authorize("admin", "seller"),
   orderController.getAllOrders,
 );
 
 router.get(
   "/admin/orders/dashboard",
   authenticate,
-  authorize("admin"),
+  authorize("admin", "seller"),
   orderController.getDashboardStatistics,
 );
 
 router.get(
   "/admin/orders/:id",
   authenticate,
-  authorize("admin"),
+  authorize("admin", "seller"),
   validate(orderIdSchema, "params"),
   orderController.getAdminOrderById,
 );
@@ -61,7 +61,7 @@ router.get(
 router.patch(
   "/admin/orders/:id/status",
   authenticate,
-  authorize("admin"),
+  authorize("admin", "seller"),
   validate(orderIdSchema, "params"),
   validate(updateOrderStatusSchema),
   orderController.updateOrderStatus,
@@ -70,7 +70,7 @@ router.patch(
 router.delete(
   "/admin/orders/:id",
   authenticate,
-  authorize("admin"),
+  authorize("admin", "seller"),
   validate(orderIdSchema, "params"),
   orderController.deleteAdminOrder,
 );
