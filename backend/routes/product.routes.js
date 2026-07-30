@@ -3,6 +3,7 @@ const productController = require("../controllers/product.controller");
 const authenticate = require("../middleware/auth.middleware");
 const authorize = require("../middleware/authorize.middleware");
 const validate  = require("../middleware/validation.middleware");
+const { checkCache } = require("../middleware/redis.middleware");
 const {
   createProductSchema,
   productIdSchema,
@@ -20,10 +21,11 @@ router.post(
   productController.createProduct,
 );
 
-router.get("/", productController.getAllProducts);
+router.get("/", checkCache(), productController.getAllProducts);
 
 router.get(
   "/:id",
+  checkCache(),
   validate(productIdSchema, "params"),
   productController.getProductById,
 );
