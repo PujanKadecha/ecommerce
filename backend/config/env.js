@@ -40,4 +40,6 @@ module.exports = {
     secret: process.env.COOKIE_SECRET,
     expires: process.env.COOKIE_EXPIRES,
   },
+
+  stripe : process.env.STRIPE_SECRET_KEY,
 };
