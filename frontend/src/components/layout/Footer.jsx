@@ -108,57 +108,6 @@ function Footer() {
             </Box>
           </Grid>
 
-          {/* Customer Care */}
-          <Grid item xs={6} md={2}>
-            <Typography
-              variant="caption"
-              sx={{
-                fontWeight: 700,
-                letterSpacing: "0.12em",
-                textTransform: "uppercase",
-                display: "block",
-                mb: 2.5,
-                color: "#ffffff",
-              }}
-            >
-              Customer Care
-            </Typography>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
-              <Link
-                href="#"
-                sx={{
-                  color: "#aaaaaa",
-                  fontSize: "0.85rem",
-                  textDecoration: "none",
-                  "&:hover": { color: "#ffffff" },
-                }}
-              >
-                Shipping Policy
-              </Link>
-              <Link
-                href="#"
-                sx={{
-                  color: "#aaaaaa",
-                  fontSize: "0.85rem",
-                  textDecoration: "none",
-                  "&:hover": { color: "#ffffff" },
-                }}
-              >
-                Returns & Exchanges
-              </Link>
-              <Link
-                href="#"
-                sx={{
-                  color: "#aaaaaa",
-                  fontSize: "0.85rem",
-                  textDecoration: "none",
-                  "&:hover": { color: "#ffffff" },
-                }}
-              >
-                Terms of Service
-              </Link>
-            </Box>
-          </Grid>
 
           {/* Account */}
           <Grid item xs={6} md={2}>
