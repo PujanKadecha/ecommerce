@@ -2,7 +2,7 @@ const redis = require("redis");
 const env = require("../config/env");
 
 const redisClient = redis.createClient({
-    url : env.redis.url || "redis://default:2QUjksMy8fQCr3jDSuw7hyNPDSibUgHv@superclean-charming-megaclear-16437.db.redis.io:18795"
+    url : env.redis.url 
 });
 
 redisClient.on('connect',()=>{
