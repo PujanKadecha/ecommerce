@@ -152,7 +152,7 @@ function Navbar() {
               </Typography>
             )}
 
-            {(user?.role === "admin" || user?.role === "seller") && (
+            {user?.role === "seller" && (
               <Typography
                 component={Link}
                 to="/seller"
@@ -371,7 +371,7 @@ function Navbar() {
             </ListItem>
           )}
 
-          {(user?.role === "admin" || user?.role === "seller") && (
+          {user?.role === "seller" && (
             <ListItem disablePadding sx={{ mb: 1.5 }}>
               <ListItemButton component={Link} to="/seller" onClick={toggleDrawer} sx={{ px: 0 }}>
                 <ListItemText
