@@ -17,7 +17,6 @@ import {
   Inventory,
   Category,
   ShoppingCart,
-  VerifiedUser,
   TrendingUp,
 } from "@mui/icons-material";
 import { fetchDashboardStats } from "../../store/slices/admin.slice";
@@ -138,13 +137,6 @@ function AdminDashboard() {
       bgColor: "#e0f2fe",
       iconColor: "#0284c7",
     },
-    // {
-    //   title: "Verified Users",
-    //   value: stats?.verifiedUsers ?? 0,
-    //   icon: <VerifiedUser fontSize="small" />,
-    //   bgColor: "#dcfce7",
-    //   iconColor: "#16a34a",
-    // },
     {
       title: "Total Products",
       value: stats?.totalProducts ?? 0,

@@ -132,14 +132,7 @@ const getDashboardStatus = async () => {
     role: "admin",
   });
 
-  const verifiedUsers = await User.countDocuments({
-    isVerified: true,
-  });
-
-  const unverifiedUsers = await User.countDocuments({
-    isVerified: false,
-  });
-
+  
   const firstDayOfMonth = new Date(
     new Date().getFullYear(),
     new Date().getMonth(),
@@ -164,8 +157,6 @@ const getDashboardStatus = async () => {
     customers,
     sellers,
     admins,
-    verifiedUsers,
-    unverifiedUsers,
     newUsersThisMonth,
   };
 };
